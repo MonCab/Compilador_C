@@ -34,14 +34,21 @@
 #define DEF 26 // Palabra reservada para DEFAULT
 #define DP 27 // ':'
 #define PUNTO 28 // '.'
-#define OPERA 29 // '+', '-', '*', '/', '%'
-#define CADE 30 // Cadenas
-#define CHAR 31 // Caracteres
-#define OPERL 32 // '||', '&&', '!'
-#define TRUE 33 // Palabra reservada para TRUE
-#define FALSE 34 // Palabra reservada para FALSE
-#define OPERR 35 // '<', '>', '>=', '<=', '!=', '=='
-#define CORI 36 // '['
-#define CORD 37 // ']'
-
+#define MAS 29 // '+'
+#define MENOS 30 // '-'
+#define MUL 31 //'*'
+#define DIV 32 // '/'
+#define POR 33 // '%'
+#define CADE 34 // Cadenas
+#define CHAR 35 // Caracteres
+#define OR 36 // '||'
+#define AND 37// '&&'
+#define NOT  38// '!'
+#define TRUE 39 // Palabra reservada para TRUE
+#define FALSE 40 // Palabra reservada para FALSE
+#define RELAC 41 //'<=','>=','>','<'
+#define IGUAL 42 //'==','!='
+#define CORI 43 //'['
+#define CORD 44 //']'
+#define IG 45//'='
 #endif
