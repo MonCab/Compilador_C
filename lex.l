@@ -81,8 +81,6 @@ int main(int argc, char  **argv){
 	if (argc < 2 ) return -1; /* Si no se ingresa el archivo de entrada via CommandLine, se genera error */
 	f = fopen(argv[1], "r"); /* Se intenta abrir el archivo ingresado */
 	if(!f) return -1; /* Si no existe o no puede ser abierto, se genera un error */
-	FILE *out; /* Se genera un apuntador al archivo de salida*/
-	out = fopen("TokensEncontrados.txt", "w"); /* Se intenta abrir el archivo de salida */  /* Se intenta abrir el archivo de errores*/
 	yyin = f; 
 }
 int yywrap(){return 1;} /*Solo se aceptará un archivo de entrada */
