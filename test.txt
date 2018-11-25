@@ -1,0 +1,19 @@
+identi
+func
+if
+/* Este es un comentario completo /* 
+else
+while
+do
+for
+return
+/* Este es un comentario
+ Multilinea */
+,
+;
+.
+:
+{
+}
+(
+)
