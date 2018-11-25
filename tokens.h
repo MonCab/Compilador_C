@@ -46,16 +46,9 @@
 #define NOT  38// '!'
 #define TRUE 39 // Palabra reservada para TRUE
 #define FALSE 40 // Palabra reservada para FALSE
-#define MEN 41 // '<'
-#define MAY 42 // '>'
-#define MAYIG 43 //'>='
-#define MENIG 44 //'<='
-#define DIF 45 //'!='
-#define IGUAL 46 //'=='
-#define CORI 47 //'['
-#define CORD 48 //']'
-#define TR 49 //true
-#define FL 50 //false
-#define IG 51//'='
+#define RELAC 41 //'<=','>=','>','<'
+#define IGUAL 42 //'==','!='
+#define CORI 43 //'['
+#define CORD 44 //']'
+#define IG 45//'='
 #endif
-
