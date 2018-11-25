@@ -4,8 +4,8 @@ typedef struct NodoL{
 	char tipo[100];
 	struct Nodo *next;
 }TipoArgs;
-typedef TipoArgs *pNodo;
-typedef TipoArgs *Lista;
+typedef TipoArgs *ANodo;
+typedef TipoArgs *ALista;
 typedef struct Nodo{
 	int pos;
 	char id[100];
@@ -14,6 +14,9 @@ typedef struct Nodo{
 	char var[20];
 	Lista args;
 }TipoNodoL;
+typedef TipoNodoL *TNodo;
+typedef TipoNodoL *TLista;
+void insertArg(Lista *lista,char *arg);
 
 int main(){
 	
