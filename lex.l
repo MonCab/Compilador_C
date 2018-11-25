@@ -45,6 +45,8 @@ struct 								{ return ESTR;}
 \)									{return PARD;}
 \{									{return LLAI;}
 \}									{return LLAD;}
+\[									{return CORI;}
+\]									{return CORD;}
 
 	/* PALABRAS RESERVADAS */
 

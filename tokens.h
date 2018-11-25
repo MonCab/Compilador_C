@@ -41,5 +41,7 @@
 #define TRUE 33 // Palabra reservada para TRUE
 #define FALSE 34 // Palabra reservada para FALSE
 #define OPERR 35 // '<', '>', '>=', '<=', '!=', '=='
+#define CORI 36 // '['
+#define CORD 37 // ']'
 
 #endif
