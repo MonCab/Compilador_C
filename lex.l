@@ -14,8 +14,16 @@
 %}
   /*Opcion yylineno para detectar el numero de linea en que se generan errores. */ 
 %option yylineno 
+%x comment 
 %%
  /* Seccion de reglas gramaticales */
+
+
+"/*"		BEGIN(comment);
+<comment>[^*\n]*	   /* eat anything that's not a '*' */
+<comment>"*"+[^*/\n]*   /* eat up '*'s not followed by '/'s */
+<comment>"*"+"/"	   BEGIN(INITIAL);
+
 
 [ ]									{yycolumn += 1;} 
  /* Tras cada salto de linea se reinicia yycolumn */
@@ -82,5 +90,6 @@ int main(int argc, char  **argv){
 	f = fopen(argv[1], "r"); /* Se intenta abrir el archivo ingresado */
 	if(!f) return -1; /* Si no existe o no puede ser abierto, se genera un error */
 	yyin = f; 
+	yylex();
 }
 int yywrap(){return 1;} /*Solo se aceptará un archivo de entrada */
