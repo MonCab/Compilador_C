@@ -1,5 +1,5 @@
 /*									Analizador léxico 							*/
-/*										Examen 2 								*/
+/*										Proyecto Final							*/
 /*			Caballero Montaño Montserrat & De La Cruz Flores Hugo Alberto   	*/
 /*			   Arenas OLguín José Gerardo & Cortés Reyes Tanya Cecilia      	*/
 
@@ -19,8 +19,8 @@
 #define ID 11 //Identificador
 #define NUM 12 //Numero
 #define FUNC 13 //Palabra reservada para las funciones
-#define SEPAR 14 // ','
-#define TERM 15 // ';'
+#define COMA 14 // ','
+#define PYCOMA 15 // ';'
 #define SI 16 // Palabra reservada para IF
 #define SINO 17 // Palabra reservada para ELSE
 #define MIEN 18 // Palabra reservada para WHILE
