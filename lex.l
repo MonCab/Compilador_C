@@ -74,7 +74,7 @@ false								{return FALSE;}
 
 	/* OPERADORES */
 
-\=							{return IG;}
+\=							{return ASIGNACION;}
 \+							{return MAS;}
 \-							{return MENOS;}
 \*							{return MUL;}	
