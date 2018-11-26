@@ -2,20 +2,24 @@
  /*archivo programa.y*/
  #include<stdio.h>
 %}
-%token ENT FLO DOB CARA VAC ESTR 
-%token ID NUM FUNC COMA PYCOMA SI SINO MIEN HACER PARA 
+%token ENT FLO DOB CARA VAC ESTR
+%token ID NUM FUNC  PYCOMA SI SINO MIEN HACER PARA 
 %token RET SWI BREA PRIN CASE DEF DP PUNTO CADE
 %token CHAR  TRUE FALSE  
-%left IG
+%left COMA
+%right ASIGNACION
 %left OR
 %left AND
-%left IGUAL
-%left RELAC
+%left IGUAL DIFERENTEQUE
+%left MAYORQUE  MENORQUE MAYORIGUAL MENORIGUAL
 %left MAS MENOS
-%left MUL DIV POR
+%left MUL DIV MODULO
 %right NOT
-%left FIRST
-%nonassoc PARI PARD LLAI LLAD CORI CORD
+%left PARI PARD 
+%nonassoc LLAI LLAD CORI CORD
+%precedence if
+%precedence else
+
 %start prog 
 %%
 /*1.-programa -> declaraciones funciones*/

@@ -74,17 +74,21 @@ false								{return FALSE;}
 
 	/* OPERADORES */
 
-\=						{return IG;}
-\+						{return MAS;}
-\-						{return MENOS;}
-\*						{return MUL;}	
-\/						{return DIV;}
-\%						{return POR;}
+\=							{return IG;}
+\+							{return MAS;}
+\-							{return MENOS;}
+\*							{return MUL;}	
+\/							{return DIV;}
+\%							{return MODULO;}
 "||"						{return OR;}
 "&&"						{return AND;}
-"!"						{return NOT;}
-"<"|">"|">="|"<="				{return RELAC;}
-"!="|"=="					{return IGUAL;}
+"!"							{return NOT;}
+"<"							{return MAYORQUE;}
+">"							{return MENORQUE;}
+">="						{return MAYORIGUAL;}
+"<="						{return MENORIGUAL;}
+"!="						{return DIFERENTEQUE;}
+"=="						{return IGUAL;}
 
 
 	/* CONSTANTES */

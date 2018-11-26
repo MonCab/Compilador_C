@@ -50,5 +50,5 @@
 #define IGUAL 42 //'==','!='
 #define CORI 43 //'['
 #define CORD 44 //']'
-#define IG 45//'='
+#define ASIGNACION 45//'='
 #endif
