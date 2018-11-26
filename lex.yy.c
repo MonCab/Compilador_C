@@ -1106,12 +1106,12 @@ YY_RULE_SETUP
 case 48:
 YY_RULE_SETUP
 #line 87 "lex.l"
-{return MAYORQUE;}
+{return MENORQUE;}
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
 #line 88 "lex.l"
-{return MENORQUE;}
+{return MAYORQUE;}
 	YY_BREAK
 case 50:
 YY_RULE_SETUP

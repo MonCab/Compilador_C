@@ -80,15 +80,15 @@ false								{return FALSE;}
 \-							{return MENOS;}
 \*							{return MUL;}	
 \/							{return DIV;}
-\%							{return POR;}
+\%							{return MODULO;}
 "||"						{return OR;}
 "&&"						{return AND;}
 "!"							{return NOT;}
-"<"							{return RELAC;}
-">"							{return RELAC;}
-">="						{return RELAC;}
-"<="						{return RELAC;}
-"!="						{return IGUAL;}
+"<"							{return MENORQUE;}
+">"							{return MAYORQUE;}
+">="						{return MAYORIGUAL;}
+"<="						{return MENORIGUAL;}
+"!="						{return DIFERENTEQUE;}
 "=="						{return IGUAL;}
 
 
