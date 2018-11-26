@@ -45,8 +45,8 @@ struct 								{ return ESTR;}
 \)									{return PARD;}
 \{									{return LLAI;}
 \}									{return LLAD;}
-\[									{return CORI;}
-\]									{return CORD;}
+"["									{return CORI;}
+"]"									{return CORD;}
 
 	/* PALABRAS RESERVADAS */
 
@@ -74,9 +74,18 @@ false								{return FALSE;}
 
 	/* OPERADORES */
 
-[\+\-\*\/\%]						{return OPERA;}
-"||"|"&&"|"!"						{return OPERL;}
-"<"|">"|">="|"<="|"!="|"=="			{return OPERR;}
+\=						{return IG;}
+\+						{return MAS;}
+\-						{return MENOS;}
+\*						{return MUL;}	
+\/						{return DIV;}
+\%						{return POR;}
+"||"						{return OR;}
+"&&"						{return AND;}
+"!"						{return NOT;}
+"<"|">"|">="|"<="				{return RELAC;}
+"!="|"=="					{return IGUAL;}
+
 
 	/* CONSTANTES */
 ([a-zA-Z]|"_")([a-zA-Z0-9]|"_")*	{return ID;}
@@ -90,14 +99,16 @@ false								{return FALSE;}
 /* Sección de código del usuario */
 /* Aquí se realiza la apertura de ambos archivos (entrada y salida) */
 int main(int argc, char  **argv){
-	int i;
+	int i,token;
 	FILE *f; /* Se genera un apuntador al archivo*/
 	if (argc < 2 ) return -1; /* Si no se ingresa el archivo de entrada via CommandLine, se genera error */
 	f = fopen(argv[1], "r"); /* Se intenta abrir el archivo ingresado */
 	if(!f) return -1; /* Si no existe o no puede ser abierto, se genera un error */
 	yyin = f;
-	for (i = 0 ; i < 15 ; i++){ 
-		printf("\nToken %d  : %d",i,yylex());
+	token=yylex();
+	while(token!=0){
+		printf("%d\n",token);	
+		token=yylex();
 	}
 	fclose(f);
 
