@@ -10,7 +10,8 @@
 	#include "y.tab.h" /* Biblioteca con el valor de nuestros terminales */
 	int yycolumn = 1; /* variable global para almacenar y mostrar el numero de columna */
 	#define YY_USER_ACTION yycolumn += yyleng; /* Se define una macro para ejecutarse cada que se encuentra un token */
-	int comment_aux = 0 ;											
+	int comment_aux = 0 ;	
+											
 %}
   /*Opcion yylineno para detectar el numero de linea en que se generan errores. */ 
 %option yylineno 
@@ -97,7 +98,7 @@ false								{return FALSE;}
 -?([0-9])+(.([0-9])+)?				{return NUM;}
 \'.\'								{return CHAR;}
 \".+\"								{return CADE;}
-.									{printf("Error léxico en la línea %d, columna %d,  causado por : %s \n", yylineno,yycolumn,yytext);}							
+.									{printf("\n\tError léxico en la línea %d, columna %d,  causado por : %s \n", yylineno,yycolumn,yytext);}							
 <<EOF>>								{exit(1);}
 
 %% 

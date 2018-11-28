@@ -3,6 +3,7 @@
  #include<stdio.h>
  extern int yylex();
  extern int yylineno;
+ extern char *yytext;
  void yyerror(char *);
 %}
 %token ENT FLO DOB CARA VAC ESTR
@@ -89,5 +90,6 @@ cond: cond OR cond | cond AND cond | NOT cond | PARI cond PARD | exp relacional 
 /*19.-relacional-> <|>|<=|>=|!=|==*/
 relacional: MAYORQUE | MENORQUE | MAYORIGUAL | MENORIGUAL| DIFERENTEQUE | IGUAL ;
 %%
-
-void yyerror(char *s){printf ("\n\t Error : en %d %s \n " ,yylineno, s);} 
+void yyerror(char *s){
+	printf ("\n\tError sintactico en la linea : %d \n\tProvocado después de: %s \n " ,yylineno, yytext);
+	} 
