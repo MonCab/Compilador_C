@@ -1,34 +1,94 @@
 %{
  /*archivo programa.y*/
+ #include <stdbool.h>
  #include<stdio.h>
+ #include "tablasTipos.h"
+ #include "attributes.h"
+ extern int yylex();
+ extern int yylineno;
+ extern char *yytext;
+ void yyerror(char *);
+
+/* Variable para la tabla de símbolos*/
+ SLista tabla_de_simbolos;
+
+/* Variable para el conteo de direcciones */
+int dir=0;
+
+/* Variables para guardar el tipo y ancho actual */
+int current_type;
+int current_dim;
+
+/* Funciones auxiliares al análisis semántico y generación de código intermedio */
+void init();
+
+
+
 %}
-%token ENT FLO DOB CARA VAC ESTR 
-%token ID NUM FUNC COMA PYCOMA SI SINO MIEN HACER PARA 
+
+
+%union{
+	numero num;	
+	char id[32];
+	exp expresion;
+	type tipo;
+	struct{
+	labels falses;
+	labels trues;
+	}booleanos;
+	labels siguientes;
+	struct{
+	labels siguientes;
+	bool ifelse;
+	}siguientesp;
+	int rel;
+}
+
+
+
+%token<id> ID
+%token<num> NUM
+%token ENT FLO DOB CARA VAC ESTR
+%token  FUNC COMA  PYCOMA SI SINO MIEN HACER PARA 
 %token RET SWI BREA PRIN CASE DEF DP PUNTO CADE
 %token CHAR  TRUE FALSE  
-%left IG
+%right ASIGNACION
 %left OR
 %left AND
-%left IGUAL
-%left RELAC
+%left IGUAL DIFERENTEQUE
+%left MAYORQUE  MENORQUE MAYORIGUAL MENORIGUAL
 %left MAS MENOS
-%left MUL DIV POR
+%left MUL DIV MODULO
 %right NOT
-%left FIRST
-%nonassoc PARI PARD LLAI LLAD CORI CORD
+%left PARI PARD 
+%nonassoc LLAI LLAD CORI CORD
+%left SI
+%left SINO
+
+
+
+%type<tipo> tipo
+%type<booleanos> cond
+%type<siguientes> sent O
+%type<expresion> exp
+%type<rel> relacional
+
+
+
+
 %start prog 
 %%
 /*1.-programa -> declaraciones funciones*/
-prog: decl func ;
+prog:	{init();}	decl	{mostrarSimbolos(tabla_de_simbolos);}	func ;
 
 /*2.-declaraciones-> tipo lista; | epsilon*/
-decl: tipo lista PYCOMA | ;
+decl: tipo {current_type = $1.type; current_dim = $1.dim;} lista PYCOMA | ;
 
 /*3.-tipo-> int|float|double|char|void|struct{declaraciones}*/
-tipo: ENT | FLO | DOB | CARA | VAC | ESTR LLAI decl LLAD ;
+tipo: ENT {$$.type=1; $$.dim=4;} | FLO {$$.type=2; $$.dim=4;}| DOB{$$.type=3; $$.dim=8;} | CARA{$$.type=0; $$.dim=1;} | VAC | ESTR LLAI decl LLAD ;
 
 /*4.-lista-> lista, id arreglo | id arreglo*/
-lista: lista COMA ID arreglo | ID arreglo;
+lista: lista COMA ID  arreglo | ID arreglo;
 
 /*5.-arreglo->[numero] arreglo | epsilon*/
 arreglo: CORI NUM CORD arreglo | ;
@@ -49,8 +109,9 @@ parte_arreglo: CORI CORD parte_arreglo| ;
 while(condicion) sentencia | do sentencia while(condicion); | for(sentencia;condicion;sentencia) sentencia |
 parte_izquierda=expresion; | return expresion; | return; | {sentencia} | switch(expresion){casos predeterminado}
 | break;| print expresion; */
-sent: sent sent | SI PARI cond PARD sent | SI PARI cond PARD sent SINO sent %prec FIRST | MIEN PARI cond PARD sent 
-| HACER sent MIEN PARI cond PARD PYCOMA | PARA PARI sent PYCOMA cond PYCOMA sent PARD sent | parte_iz IG exp PYCOMA 
+
+sent: sent sent | SI PARI cond PARD sent | SI PARI cond PARD sent SINO sent | MIEN PARI cond PARD sent 
+| HACER sent MIEN PARI cond PARD PYCOMA | PARA PARI sent PYCOMA cond PYCOMA sent PARD sent | parte_iz ASIGNACION exp PYCOMA 
 | RET exp PYCOMA | RET PYCOMA | LLAI exp LLAD | SWI PARI exp PARD LLAI casos pred LLAD | BREA PYCOMA | PRIN exp PYCOMA ;
 
 /*11.-casos->case: numero sentencia predeterminado | epsilon */
@@ -67,7 +128,7 @@ var_arreglo: ID CORI exp CORD | var_arreglo CORI exp CORD;
 
 /*15.-expresion->expresion + expresion|expresion - expresion| expresion * expresion| expresion / expresion
 | expresion % expresion | var_arreglo |cadenas | numero | caracter| id(parametros)*/
-exp: exp MAS exp | exp MENOS exp | exp MUL exp | exp DIV exp | exp POR exp | var_arreglo | CADE | NUM | CHAR | ID PARI param PARD;
+exp: exp MAS exp | exp MENOS exp | exp MUL exp | exp DIV exp | exp MODULO exp | var_arreglo | CADE | NUM | CHAR | ID PARI param PARD;
 
 /*16.-parametros->epsilon|lista_param*/
 param: lista_param | ;
@@ -80,5 +141,11 @@ lista_param: lista_param COMA exp | exp;
 cond: cond OR cond | cond AND cond | NOT cond | PARI cond PARD | exp relacional exp | TRUE | FALSE ;
 
 /*19.-relacional-> <|>|<=|>=|!=|==*/
-relacional: RELAC | IGUAL ;
+relacional: MAYORQUE | MENORQUE | MAYORIGUAL | MENORIGUAL| DIFERENTEQUE | IGUAL ;
 %%
+void init(){    
+    Crear_tablaS(&tabla_de_simbolos);  
+}
+void yyerror(char *s){
+	printf ("\n\tError sintactico en la linea : %d \n\tProvocado después de: %s \n " ,yylineno, yytext);
+	} 
