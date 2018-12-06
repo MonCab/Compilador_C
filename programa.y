@@ -91,10 +91,10 @@ lista: lista COMA ID {	if(ExisteS(TS,$3)!=0)
 			else{
 				insertSimbol(&TS,getLastSymbol(TS)+1,$3,current_type,dir,"var",NULL);
 				dir+=getTam(TT,current_type);}
-			} arreglo | ID {	if(ExisteS(TS,$3)!=0)
+			} arreglo | ID {	if(ExisteS(TS,$1)!=0)
 				printf("Error, identificador repetido\n");
 			else{
-				insertSimbol(&TS,getLastSymbol(TS)+1,$3,current_type,dir,"var",NULL);
+				insertSimbol(&TS,getLastSymbol(TS)+1,$1,current_type,dir,"var",NULL);
 				dir+=getTam(TT,current_type);}
 			} arreglo;
 
