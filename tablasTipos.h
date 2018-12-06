@@ -36,11 +36,12 @@ void Crear_tablaA(ALista *listaA);
 int getLastType(TLista Lista);
 int getLastSymbol(SLista Lista);
 void iniciarTipos(TLista *Lista);
-void mostrarTipos(TLista Lista);
-void mostrarSimbolos(SLista Lista);
 void insertArg(ALista *Lista,char *arg);
 void insertSimbol(SLista *Lista,int pos,char *id,int tipo,int dir,char *var,ALista *args);
 void insertTipo(TLista *Lista,int pos,char *tipo,int tam, int dim, TNodo tipoBase);
-char *getName(SLista Lista, int pos);
+int ExisteS(SLista Lista,char *id);
+int getTam(TLista Lista, int tipo);
+int Correct_Type(int tipo1, int tipo2);
+TNodo getBase(TLista Lista,int tipo);
 
 #endif /* TABLASTIPOS_H */

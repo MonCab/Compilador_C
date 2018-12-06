@@ -11,6 +11,7 @@
 
 /* Variable para la tabla de símbolos*/
  SLista tabla_de_simbolos;
+ TLista TT;
 
 /* Variable para el conteo de direcciones */
 int dir=0;
@@ -69,7 +70,7 @@ void init();
 
 %type<tipo> tipo
 %type<booleanos> cond
-%type<siguientes> sent O
+%type<siguientes> sent 
 %type<expresion> exp
 %type<rel> relacional
 
@@ -79,22 +80,40 @@ void init();
 %start prog 
 %%
 /*1.-programa -> declaraciones funciones*/
-prog:	{init();}	decl	{mostrarSimbolos(tabla_de_simbolos);}	func ;
+prog:	{init();} decl func ;
 
 /*2.-declaraciones-> tipo lista; | epsilon*/
 decl: tipo {current_type = $1.type; current_dim = $1.dim;} lista PYCOMA | ;
 
 /*3.-tipo-> int|float|double|char|void|struct{declaraciones}*/
-tipo: ENT {$$.type=1; $$.dim=4;} | FLO {$$.type=2; $$.dim=4;}| DOB{$$.type=3; $$.dim=8;} | CARA{$$.type=0; $$.dim=1;} | VAC | ESTR LLAI decl LLAD ;
+tipo: ENT {$$.type=2; $$.dim=4;} | FLO {$$.type=3; $$.dim=4;}| DOB{$$.type=4; $$.dim=8;} | CARA{$$.type=1; $$.dim=1;} | VAC {$$.type=0; $$.dim=0;} | ESTR LLAI decl LLAD ;
 
 /*4.-lista-> lista, id arreglo | id arreglo*/
-lista: lista COMA ID  arreglo | ID arreglo;
+lista: lista COMA ID {	if(ExisteS(tabla_de_simbolos,$3)!=0)
+				printf("Error, identificador repetido\n");
+			else{
+				insertSimbol(&tabla_de_simbolos,getLastSymbol(tabla_de_simbolos)+1,$3,current_type,dir,"var",NULL);
+				dir+=getTam(TT,current_type);}
+			} arreglo | ID {	if(ExisteS(tabla_de_simbolos,$3)!=0)
+				printf("Error, identificador repetido\n");
+			else{
+				insertSimbol(&tabla_de_simbolos,getLastSymbol(tabla_de_simbolos)+1,$3,current_type,dir,"var",NULL);
+				dir+=getTam(TT,current_type);}
+			} arreglo;
 
 /*5.-arreglo->[numero] arreglo | epsilon*/
-arreglo: CORI NUM CORD arreglo | ;
+arreglo: CORI NUM CORD arreglo {if($2.type=2){
+					insertTipo(TT,getLastType(TT)+1,"array",getTam(TT,$2.type),$2.val,getBase($2.type));
+				}else{
+					printf("Error numero no entero\n");			
+				}} | ;
 
 /*6.-funciones-> func tipo id(argumentos){declaraciones sentencia} funciones|epsilon*/
-func: FUNC tipo ID PARI args PARD LLAI decl sent LLAD func | ;
+func: FUNC tipo ID {	if(ExisteS(tabla_de_simbolos,$3)!=0)
+				printf("Error, identificador repetido\n");
+			else
+				insertSimbol(&tabla_de_simbolos,getLastSymbol(tabla_de_simbolos)+1,$3,current_type,dir,"var",NULL);
+			} PARI args PARD LLAI decl sent LLAD func | ;
 
 /*7.-argumentos->lista_argumentos|epsilon*/
 args: lista_args | ;
@@ -145,6 +164,7 @@ relacional: MAYORQUE | MENORQUE | MAYORIGUAL | MENORIGUAL| DIFERENTEQUE | IGUAL 
 %%
 void init(){    
     Crear_tablaS(&tabla_de_simbolos);  
+    Crear_tablaT(&TT);
 }
 void yyerror(char *s){
 	printf ("\n\tError sintactico en la linea : %d \n\tProvocado después de: %s \n " ,yylineno, yytext);
