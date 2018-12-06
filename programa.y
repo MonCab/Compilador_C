@@ -10,7 +10,7 @@
  void yyerror(char *);
 
 /* Variable para la tabla de símbolos*/
- SLista tabla_de_simbolos;
+ SLista TS;
  TLista TT;
 
 /* Variable para el conteo de direcciones */
@@ -74,9 +74,6 @@ void init();
 %type<expresion> exp
 %type<rel> relacional
 
-
-
-
 %start prog 
 %%
 /*1.-programa -> declaraciones funciones*/
@@ -89,30 +86,30 @@ decl: tipo {current_type = $1.type; current_dim = $1.dim;} lista PYCOMA | ;
 tipo: ENT {$$.type=2; $$.dim=4;} | FLO {$$.type=3; $$.dim=4;}| DOB{$$.type=4; $$.dim=8;} | CARA{$$.type=1; $$.dim=1;} | VAC {$$.type=0; $$.dim=0;} | ESTR LLAI decl LLAD ;
 
 /*4.-lista-> lista, id arreglo | id arreglo*/
-lista: lista COMA ID {	if(ExisteS(tabla_de_simbolos,$3)!=0)
+lista: lista COMA ID {	if(ExisteS(TS,$3)!=0)
 				printf("Error, identificador repetido\n");
 			else{
-				insertSimbol(&tabla_de_simbolos,getLastSymbol(tabla_de_simbolos)+1,$3,current_type,dir,"var",NULL);
+				insertSimbol(&TS,getLastSymbol(TS)+1,$3,current_type,dir,"var",NULL);
 				dir+=getTam(TT,current_type);}
-			} arreglo | ID {	if(ExisteS(tabla_de_simbolos,$3)!=0)
+			} arreglo | ID {	if(ExisteS(TS,$3)!=0)
 				printf("Error, identificador repetido\n");
 			else{
-				insertSimbol(&tabla_de_simbolos,getLastSymbol(tabla_de_simbolos)+1,$3,current_type,dir,"var",NULL);
+				insertSimbol(&TS,getLastSymbol(TS)+1,$3,current_type,dir,"var",NULL);
 				dir+=getTam(TT,current_type);}
 			} arreglo;
 
 /*5.-arreglo->[numero] arreglo | epsilon*/
 arreglo: CORI NUM CORD arreglo {if($2.type=2){
-					insertTipo(TT,getLastType(TT)+1,"array",getTam(TT,$2.type),$2.val,getBase($2.type));
+					insertTipo(TT,getLastType(TT)+1,"array",getTam(TT,$2.type),$2.val,getBase(TT,$2.type));
 				}else{
 					printf("Error numero no entero\n");			
 				}} | ;
 
 /*6.-funciones-> func tipo id(argumentos){declaraciones sentencia} funciones|epsilon*/
-func: FUNC tipo ID {	if(ExisteS(tabla_de_simbolos,$3)!=0)
+func: FUNC tipo ID {	if(ExisteS(TS,$3)!=0)
 				printf("Error, identificador repetido\n");
 			else
-				insertSimbol(&tabla_de_simbolos,getLastSymbol(tabla_de_simbolos)+1,$3,current_type,dir,"var",NULL);
+				insertSimbol(&TS,getLastSymbol(TS)+1,$3,current_type,dir,"var",NULL);
 			} PARI args PARD LLAI decl sent LLAD func | ;
 
 /*7.-argumentos->lista_argumentos|epsilon*/
@@ -163,7 +160,7 @@ cond: cond OR cond | cond AND cond | NOT cond | PARI cond PARD | exp relacional 
 relacional: MAYORQUE | MENORQUE | MAYORIGUAL | MENORIGUAL| DIFERENTEQUE | IGUAL ;
 %%
 void init(){    
-    Crear_tablaS(&tabla_de_simbolos);  
+    Crear_tablaS(&TS);  
     Crear_tablaT(&TT);
 }
 void yyerror(char *s){
