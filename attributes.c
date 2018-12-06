@@ -2,12 +2,12 @@
  * File:   attributes.c
 Adrian Ulises Mercado Martínez ft Caballero , Arenas , Cortés , De La Cruz
  */
-
-#include "attributes.h"
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include "attributes.h"
+
 
 char *pop_label(labels* ls){
 	char *t= (char*) malloc(32*sizeof(char));

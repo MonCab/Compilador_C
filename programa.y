@@ -1,12 +1,13 @@
 %{
  /*archivo programa.y*/
+ #include <stdbool.h>
  #include<stdio.h>
+ #include "attributes.h"
  extern int yylex();
  extern int yylineno;
  extern char *yytext;
  void yyerror(char *);
-#include "attributes.h"
-#include <stdbool.h>
+
 
 %}
 

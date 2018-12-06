@@ -39,34 +39,34 @@
    /* Put the tokens into the symbol table, so that GDB and other debuggers
       know about them.  */
    enum yytokentype {
-     ENT = 258,
-     FLO = 259,
-     DOB = 260,
-     CARA = 261,
-     VAC = 262,
-     ESTR = 263,
-     ID = 264,
-     NUM = 265,
+     ID = 258,
+     NUM = 259,
+     ENT = 260,
+     FLO = 261,
+     DOB = 262,
+     CARA = 263,
+     VAC = 264,
+     ESTR = 265,
      FUNC = 266,
-     PYCOMA = 267,
-     SI = 268,
-     SINO = 269,
-     MIEN = 270,
-     HACER = 271,
-     PARA = 272,
-     RET = 273,
-     SWI = 274,
-     BREA = 275,
-     PRIN = 276,
-     CASE = 277,
-     DEF = 278,
-     DP = 279,
-     PUNTO = 280,
-     CADE = 281,
-     CHAR = 282,
-     TRUE = 283,
-     FALSE = 284,
-     COMA = 285,
+     COMA = 267,
+     PYCOMA = 268,
+     SI = 269,
+     SINO = 270,
+     MIEN = 271,
+     HACER = 272,
+     PARA = 273,
+     RET = 274,
+     SWI = 275,
+     BREA = 276,
+     PRIN = 277,
+     CASE = 278,
+     DEF = 279,
+     DP = 280,
+     PUNTO = 281,
+     CADE = 282,
+     CHAR = 283,
+     TRUE = 284,
+     FALSE = 285,
      ASIGNACION = 286,
      OR = 287,
      AND = 288,
@@ -91,34 +91,34 @@
    };
 #endif
 /* Tokens.  */
-#define ENT 258
-#define FLO 259
-#define DOB 260
-#define CARA 261
-#define VAC 262
-#define ESTR 263
-#define ID 264
-#define NUM 265
+#define ID 258
+#define NUM 259
+#define ENT 260
+#define FLO 261
+#define DOB 262
+#define CARA 263
+#define VAC 264
+#define ESTR 265
 #define FUNC 266
-#define PYCOMA 267
-#define SI 268
-#define SINO 269
-#define MIEN 270
-#define HACER 271
-#define PARA 272
-#define RET 273
-#define SWI 274
-#define BREA 275
-#define PRIN 276
-#define CASE 277
-#define DEF 278
-#define DP 279
-#define PUNTO 280
-#define CADE 281
-#define CHAR 282
-#define TRUE 283
-#define FALSE 284
-#define COMA 285
+#define COMA 267
+#define PYCOMA 268
+#define SI 269
+#define SINO 270
+#define MIEN 271
+#define HACER 272
+#define PARA 273
+#define RET 274
+#define SWI 275
+#define BREA 276
+#define PRIN 277
+#define CASE 278
+#define DEF 279
+#define DP 280
+#define PUNTO 281
+#define CADE 282
+#define CHAR 283
+#define TRUE 284
+#define FALSE 285
 #define ASIGNACION 286
 #define OR 287
 #define AND 288
@@ -145,7 +145,27 @@
 
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef int YYSTYPE;
+typedef union YYSTYPE
+#line 15 "programa.y"
+{
+	numero num;	
+	char id[32];
+	exp expresion;
+	type tipo;
+	struct{
+	labels falses;
+	labels trues;
+	}booleanos;
+	labels siguientes;
+	struct{
+	labels siguientes;
+	bool ifelse;
+	}siguientesp;
+	int rel;
+}
+/* Line 1529 of yacc.c.  */
+#line 168 "y.tab.h"
+	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
 # define YYSTYPE_IS_TRIVIAL 1

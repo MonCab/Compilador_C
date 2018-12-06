@@ -7,13 +7,13 @@
 %{ 
 	#include <stdio.h>
 	#include <stdlib.h>
+	#include <stdbool.h>
+	#include "attributes.h"
 	#include "y.tab.h" /* Biblioteca con el valor de nuestros terminales */
 	int yycolumn = 1; /* variable global para almacenar y mostrar el numero de columna */
 	#define YY_USER_ACTION yycolumn += yyleng; /* Se define una macro para ejecutarse cada que se encuentra un token */
 	int comment_aux = 0 ;
-	#include <stdbool.h>
-	#include "attributes.h"	
-											
+					
 %}
   /*Opcion yylineno para detectar el numero de linea en que se generan errores. */ 
 %option yylineno 
