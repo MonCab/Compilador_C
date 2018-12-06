@@ -117,6 +117,19 @@ int getLastSymbol(SLista Lista){
 		return anterior->pos;
 	}
 }
+char *getName(SLista Lista, int pos){
+	if(Lista==NULL){
+		return "";
+	}else{
+		SNodo nodo=Lista,anterior;
+		do{
+			anterior=nodo;
+			nodo=nodo->next;		
+		}while(nodo);
+		return anterior->id;
+	}
+
+}
 void Crear_tablaS(SLista *listaS){
 	*listaS=NULL;
 }

@@ -88,7 +88,7 @@ decl: tipo {current_type = $1.type; current_dim = $1.dim;} lista PYCOMA | ;
 tipo: ENT {$$.type=1; $$.dim=4;} | FLO {$$.type=2; $$.dim=4;}| DOB{$$.type=3; $$.dim=8;} | CARA{$$.type=0; $$.dim=1;} | VAC | ESTR LLAI decl LLAD ;
 
 /*4.-lista-> lista, id arreglo | id arreglo*/
-lista: lista COMA ID {insertSimbol(tabla_de_simbolos,(getLastSymbol(&Lista)+1));} arreglo | ID arreglo;
+lista: lista COMA ID  arreglo | ID arreglo;
 
 /*5.-arreglo->[numero] arreglo | epsilon*/
 arreglo: CORI NUM CORD arreglo | ;
