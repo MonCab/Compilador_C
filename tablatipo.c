@@ -1,68 +1,9 @@
+#include"tablasTipos.h"
 #include<stdio.h>
 #include<string.h>
 #include<stdlib.h>
-typedef struct NodoA{
-	char tipo[100];
-	struct NodoA *next;
-}TipoArgs;
-typedef TipoArgs *ANodo;
-typedef TipoArgs *ALista;
-typedef struct NodoS{
-	int pos;
-	char id[100];
-	int tipo;
-	int dir;
-	char var[20];
-	ALista *args;
-	struct NodoS *next;
-}TipoSimbol;
-typedef TipoSimbol *SNodo;
-typedef TipoSimbol *SLista;
-typedef struct NodoT{
-	int pos;
-	char tipo[50];
-	int tam;
-	int dim;
-	int tipoBase;
-	struct NodoT *next;
-}TipoTipo;
-typedef TipoTipo *TNodo;
-typedef TipoTipo *TLista;
-int getLastType(TLista Lista);
-void iniciarTipos(TLista *Lista);
-void mostrar(TLista Lista);
-void insertArg(ALista *Lista,char *arg);
-void insertSimbol(SLista *Lista,int pos,char *id,int tipo,int dir,char *var,ALista *args);
-void insertTipo(TLista *Lista,int pos,char *tipo,int tam, int dim, int tipoBase);
-int main(){
-	SLista simbolos=NULL;
-	TLista tipos=NULL;
-	ALista args=NULL;
-	iniciarTipos(&tipos);
 
-	mostrar(tipos);
-	
-	return 0;
-}
-void iniciarTipos(TLista *Lista){
-	insertTipo(Lista,(getLastType(*Lista)+1),"char",1,-1,-1);
-	insertTipo(Lista,(getLastType(*Lista)+1),"int",4,-1,-1);
-	insertTipo(Lista,(getLastType(*Lista)+1),"float",4,-1,-1);
-	insertTipo(Lista,(getLastType(*Lista)+1),"double",8,-1,-1);
-}
-int getLastType(TLista Lista){
-	if(Lista==NULL){
-		return -1;
-	}else{
-		TNodo nodo=Lista,anterior;
-		do{
-			anterior=nodo;
-			nodo=nodo->next;		
-		}while(nodo);
-		return anterior->pos;
-	}
 
-}
 void insertArg(ALista *Lista,char *arg){
 	ANodo nuevo,anterior;
 	nuevo=(ANodo)malloc(sizeof(TipoArgs));
@@ -97,7 +38,7 @@ void insertSimbol(SLista *Lista,int pos,char *id,int tipo,int dir,char *var,ALis
 		anterior->next=nuevo;	
 	}
 }
-void insertTipo(TLista *Lista,int pos,char *tipo,int tam, int dim, int tipoBase){
+void insertTipo(TLista *Lista,int pos,char *tipo,int tam, int dim, TNodo tipoBase){
 	TNodo nuevo,anterior;
 	nuevo=(TNodo)malloc(sizeof(TipoTipo));
 	nuevo->pos=pos;
@@ -115,7 +56,22 @@ void insertTipo(TLista *Lista,int pos,char *tipo,int tam, int dim, int tipoBase)
 		anterior->next=nuevo;	
 	}
 }
-void mostrar(TLista Lista){
+
+void mostrarSimbolos(SLista Lista){
+	if(Lista==NULL){
+		printf("!cola vacia!\n");
+	}else{
+		SNodo nodo=Lista;
+		printf("Elementos de la lista:\n");
+		do{
+			printf("%d , %s \n",nodo->pos,nodo->id);
+			nodo=nodo->next;
+		}while(nodo);
+		printf("\n");
+	}
+}
+
+void mostrarTipos(TLista Lista){
 	if(Lista==NULL){
 		printf("!cola vacia!\n");
 	}else{
@@ -128,3 +84,47 @@ void mostrar(TLista Lista){
 		printf("\n");
 	}
 }
+
+void iniciarTipos(TLista *Lista){
+	insertTipo(Lista,(getLastType(*Lista)+1),"char",1,-1,NULL);
+	insertTipo(Lista,(getLastType(*Lista)+1),"int",4,-1,NULL);
+	insertTipo(Lista,(getLastType(*Lista)+1),"float",4,-1,NULL);
+	insertTipo(Lista,(getLastType(*Lista)+1),"double",8,-1,NULL);
+}
+
+int getLastType(TLista Lista){
+	if(Lista==NULL){
+		return -1;
+	}else{
+		TNodo nodo=Lista,anterior;
+		do{
+			anterior=nodo;
+			nodo=nodo->next;		
+		}while(nodo);
+		return anterior->pos;
+	}
+}
+
+int getLastSymbol(SLista Lista){
+	if(Lista==NULL){
+		return -1;
+	}else{
+		SNodo nodo=Lista,anterior;
+		do{
+			anterior=nodo;
+			nodo=nodo->next;		
+		}while(nodo);
+		return anterior->pos;
+	}
+}
+void Crear_tablaS(SLista *listaS){
+	*listaS=NULL;
+}
+void Crear_tablaT(TLista *listaT){
+	*listaT=NULL;
+}
+void Crear_tablaA(ALista *listaA){
+	*listaA=NULL;
+}
+
+

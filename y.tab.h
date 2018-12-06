@@ -1,14 +1,13 @@
-/* A Bison parser, made by GNU Bison 2.3.  */
+/* A Bison parser, made by GNU Bison 3.0.4.  */
 
-/* Skeleton interface for Bison's Yacc-like parsers in C
+/* Bison interface for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989, 1990, 2000, 2001, 2002, 2003, 2004, 2005, 2006
-   Free Software Foundation, Inc.
+   Copyright (C) 1984, 1989-1990, 2000-2015 Free Software Foundation, Inc.
 
-   This program is free software; you can redistribute it and/or modify
+   This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
-   the Free Software Foundation; either version 2, or (at your option)
-   any later version.
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -16,9 +15,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 51 Franklin Street, Fifth Floor,
-   Boston, MA 02110-1301, USA.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 /* As a special exception, you may create a larger work that contains
    part or all of the Bison parser skeleton and distribute that work
@@ -33,123 +30,156 @@
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
 
-/* Tokens.  */
+#ifndef YY_YY_Y_TAB_H_INCLUDED
+# define YY_YY_Y_TAB_H_INCLUDED
+/* Debug traces.  */
+#ifndef YYDEBUG
+# define YYDEBUG 0
+#endif
+#if YYDEBUG
+extern int yydebug;
+#endif
+
+/* Token type.  */
 #ifndef YYTOKENTYPE
 # define YYTOKENTYPE
-   /* Put the tokens into the symbol table, so that GDB and other debuggers
-      know about them.  */
-   enum yytokentype {
-     ENT = 258,
-     FLO = 259,
-     DOB = 260,
-     CARA = 261,
-     VAC = 262,
-     ESTR = 263,
-     ID = 264,
-     NUM = 265,
-     FUNC = 266,
-     PYCOMA = 267,
-     SI = 268,
-     SINO = 269,
-     MIEN = 270,
-     HACER = 271,
-     PARA = 272,
-     RET = 273,
-     SWI = 274,
-     BREA = 275,
-     PRIN = 276,
-     CASE = 277,
-     DEF = 278,
-     DP = 279,
-     PUNTO = 280,
-     CADE = 281,
-     CHAR = 282,
-     TRUE = 283,
-     FALSE = 284,
-     COMA = 285,
-     ASIGNACION = 286,
-     OR = 287,
-     AND = 288,
-     DIFERENTEQUE = 289,
-     IGUAL = 290,
-     MENORIGUAL = 291,
-     MAYORIGUAL = 292,
-     MENORQUE = 293,
-     MAYORQUE = 294,
-     MENOS = 295,
-     MAS = 296,
-     MODULO = 297,
-     DIV = 298,
-     MUL = 299,
-     NOT = 300,
-     PARD = 301,
-     PARI = 302,
-     CORD = 303,
-     CORI = 304,
-     LLAD = 305,
-     LLAI = 306
-   };
+  enum yytokentype
+  {
+    ID = 258,
+    NUM = 259,
+    ENT = 260,
+    FLO = 261,
+    DOB = 262,
+    CARA = 263,
+    VAC = 264,
+    ESTR = 265,
+    FUNC = 266,
+    COMA = 267,
+    PYCOMA = 268,
+    SI = 269,
+    SINO = 270,
+    MIEN = 271,
+    HACER = 272,
+    PARA = 273,
+    RET = 274,
+    SWI = 275,
+    BREA = 276,
+    PRIN = 277,
+    CASE = 278,
+    DEF = 279,
+    DP = 280,
+    PUNTO = 281,
+    CADE = 282,
+    CHAR = 283,
+    TRUE = 284,
+    FALSE = 285,
+    ASIGNACION = 286,
+    OR = 287,
+    AND = 288,
+    IGUAL = 289,
+    DIFERENTEQUE = 290,
+    MAYORQUE = 291,
+    MENORQUE = 292,
+    MAYORIGUAL = 293,
+    MENORIGUAL = 294,
+    MAS = 295,
+    MENOS = 296,
+    MUL = 297,
+    DIV = 298,
+    MODULO = 299,
+    NOT = 300,
+    PARI = 301,
+    PARD = 302,
+    LLAI = 303,
+    LLAD = 304,
+    CORI = 305,
+    CORD = 306
+  };
 #endif
 /* Tokens.  */
-#define ENT 258
-#define FLO 259
-#define DOB 260
-#define CARA 261
-#define VAC 262
-#define ESTR 263
-#define ID 264
-#define NUM 265
+#define ID 258
+#define NUM 259
+#define ENT 260
+#define FLO 261
+#define DOB 262
+#define CARA 263
+#define VAC 264
+#define ESTR 265
 #define FUNC 266
-#define PYCOMA 267
-#define SI 268
-#define SINO 269
-#define MIEN 270
-#define HACER 271
-#define PARA 272
-#define RET 273
-#define SWI 274
-#define BREA 275
-#define PRIN 276
-#define CASE 277
-#define DEF 278
-#define DP 279
-#define PUNTO 280
-#define CADE 281
-#define CHAR 282
-#define TRUE 283
-#define FALSE 284
-#define COMA 285
+#define COMA 267
+#define PYCOMA 268
+#define SI 269
+#define SINO 270
+#define MIEN 271
+#define HACER 272
+#define PARA 273
+#define RET 274
+#define SWI 275
+#define BREA 276
+#define PRIN 277
+#define CASE 278
+#define DEF 279
+#define DP 280
+#define PUNTO 281
+#define CADE 282
+#define CHAR 283
+#define TRUE 284
+#define FALSE 285
 #define ASIGNACION 286
 #define OR 287
 #define AND 288
-#define DIFERENTEQUE 289
-#define IGUAL 290
-#define MENORIGUAL 291
-#define MAYORIGUAL 292
-#define MENORQUE 293
-#define MAYORQUE 294
-#define MENOS 295
-#define MAS 296
-#define MODULO 297
+#define IGUAL 289
+#define DIFERENTEQUE 290
+#define MAYORQUE 291
+#define MENORQUE 292
+#define MAYORIGUAL 293
+#define MENORIGUAL 294
+#define MAS 295
+#define MENOS 296
+#define MUL 297
 #define DIV 298
-#define MUL 299
+#define MODULO 299
 #define NOT 300
-#define PARD 301
-#define PARI 302
-#define CORD 303
-#define CORI 304
-#define LLAD 305
-#define LLAI 306
+#define PARI 301
+#define PARD 302
+#define LLAI 303
+#define LLAD 304
+#define CORI 305
+#define CORD 306
 
-
-
-
+/* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef int YYSTYPE;
-# define yystype YYSTYPE /* obsolescent; will be withdrawn */
-# define YYSTYPE_IS_DECLARED 1
+
+union YYSTYPE
+{
+#line 30 "programa.y" /* yacc.c:1909  */
+
+	numero num;	
+	char id[32];
+	exp expresion;
+	type tipo;
+	struct{
+	labels falses;
+	labels trues;
+	}booleanos;
+	labels siguientes;
+	struct{
+	labels siguientes;
+	bool ifelse;
+	}siguientesp;
+	int rel;
+
+#line 173 "y.tab.h" /* yacc.c:1909  */
+};
+
+typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
+# define YYSTYPE_IS_DECLARED 1
 #endif
+
 
 extern YYSTYPE yylval;
 
+int yyparse (void);
+
+#endif /* !YY_YY_Y_TAB_H_INCLUDED  */
