@@ -47,8 +47,19 @@
 %right NOT
 %left PARI PARD 
 %nonassoc LLAI LLAD CORI CORD
-%right SI
-%right SINO
+%left SI
+%left SINO
+
+
+
+%type<tipo> tipo
+%type<booleanos> cond
+%type<siguientes> sent 
+%type<expresion> exp
+%type<rel> relacional
+
+
+
 
 %start prog 
 %%
@@ -83,6 +94,7 @@ parte_arreglo: CORI CORD parte_arreglo| ;
 while(condicion) sentencia | do sentencia while(condicion); | for(sentencia;condicion;sentencia) sentencia |
 parte_izquierda=expresion; | return expresion; | return; | {sentencia} | switch(expresion){casos predeterminado}
 | break;| print expresion; */
+
 sent: sent sent | SI PARI cond PARD sent | SI PARI cond PARD sent SINO sent | MIEN PARI cond PARD sent 
 | HACER sent MIEN PARI cond PARD PYCOMA | PARA PARI sent PYCOMA cond PYCOMA sent PARD sent | parte_iz ASIGNACION exp PYCOMA 
 | RET exp PYCOMA | RET PYCOMA | LLAI exp LLAD | SWI PARI exp PARD LLAI casos pred LLAD | BREA PYCOMA | PRIN exp PYCOMA ;
