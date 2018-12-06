@@ -1,42 +1,16 @@
 %{
  /*archivo programa.y*/
- #include <stdbool.h>
  #include<stdio.h>
- #include "attributes.h"
  extern int yylex();
  extern int yylineno;
  extern char *yytext;
  void yyerror(char *);
-
-
 %}
-
-
-%union{
-	numero num;	
-	char id[32];
-	exp expresion;
-	type tipo;
-	struct{
-	labels falses;
-	labels trues;
-	}booleanos;
-	labels siguientes;
-	struct{
-	labels siguientes;
-	bool ifelse;
-	}siguientesp;
-	int rel;
-}
-
-
-
-%token<id> ID
-%token<num> NUM
 %token ENT FLO DOB CARA VAC ESTR
-%token  FUNC COMA  PYCOMA SI SINO MIEN HACER PARA 
+%token ID NUM FUNC  PYCOMA SI SINO MIEN HACER PARA 
 %token RET SWI BREA PRIN CASE DEF DP PUNTO CADE
 %token CHAR  TRUE FALSE  
+%left COMA
 %right ASIGNACION
 %left OR
 %left AND
@@ -47,19 +21,8 @@
 %right NOT
 %left PARI PARD 
 %nonassoc LLAI LLAD CORI CORD
-%left SI
-%left SINO
-
-
-
-%type<tipo> tipo
-%type<booleanos> cond
-%type<siguientes> sent 
-%type<expresion> exp
-%type<rel> relacional
-
-
-
+%right SI
+%right SINO
 
 %start prog 
 %%
@@ -94,7 +57,6 @@ parte_arreglo: CORI CORD parte_arreglo| ;
 while(condicion) sentencia | do sentencia while(condicion); | for(sentencia;condicion;sentencia) sentencia |
 parte_izquierda=expresion; | return expresion; | return; | {sentencia} | switch(expresion){casos predeterminado}
 | break;| print expresion; */
-
 sent: sent sent | SI PARI cond PARD sent | SI PARI cond PARD sent SINO sent | MIEN PARI cond PARD sent 
 | HACER sent MIEN PARI cond PARD PYCOMA | PARA PARI sent PYCOMA cond PYCOMA sent PARD sent | parte_iz ASIGNACION exp PYCOMA 
 | RET exp PYCOMA | RET PYCOMA | LLAI exp LLAD | SWI PARI exp PARD LLAI casos pred LLAD | BREA PYCOMA | PRIN exp PYCOMA ;
