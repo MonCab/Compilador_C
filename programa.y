@@ -2,6 +2,7 @@
  /*archivo programa.y*/
  #include <stdbool.h>
  #include<stdio.h>
+ #include<stdlib.h>
  #include "tablasTipos.h"
  #include "attributes.h"
  extern int yylex();
@@ -100,7 +101,7 @@ lista: lista COMA ID {	if(ExisteS(TS,$3)!=0)
 
 /*5.-arreglo->[numero] arreglo | epsilon*/
 arreglo: CORI NUM CORD arreglo {if($2.type=2){
-					insertTipo(TT,getLastType(TT)+1,"array",getTam(TT,$2.type),$2.val,getBase(TT,$2.type));
+					insertTipo(&TT,getLastType(TT)+1,"array",getTam(TT,$2.type),atoi($2.val),getBase(TT,$2.type));
 				}else{
 					printf("Error numero no entero\n");			
 				}} | ;
