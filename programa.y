@@ -5,12 +5,37 @@
  extern int yylineno;
  extern char *yytext;
  void yyerror(char *);
+#include "attributes.h"
+#include <stdbool.h>
+
 %}
+
+
+%union{
+	numero num;	
+	char id[32];
+	exp expresion;
+	type tipo;
+	struct{
+	labels falses;
+	labels trues;
+	}booleanos;
+	labels siguientes;
+	struct{
+	labels siguientes;
+	bool ifelse;
+	}siguientesp;
+	int rel;
+}
+
+
+
+%token<id> ID
+%token<num> NUM
 %token ENT FLO DOB CARA VAC ESTR
-%token ID NUM FUNC  PYCOMA SI SINO MIEN HACER PARA 
+%token  FUNC COMA  PYCOMA SI SINO MIEN HACER PARA 
 %token RET SWI BREA PRIN CASE DEF DP PUNTO CADE
 %token CHAR  TRUE FALSE  
-%left COMA
 %right ASIGNACION
 %left OR
 %left AND

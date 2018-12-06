@@ -10,7 +10,9 @@
 	#include "y.tab.h" /* Biblioteca con el valor de nuestros terminales */
 	int yycolumn = 1; /* variable global para almacenar y mostrar el numero de columna */
 	#define YY_USER_ACTION yycolumn += yyleng; /* Se define una macro para ejecutarse cada que se encuentra un token */
-	int comment_aux = 0 ;	
+	int comment_aux = 0 ;
+	#include <stdbool.h>
+	#include "attributes.h"	
 											
 %}
   /*Opcion yylineno para detectar el numero de linea en que se generan errores. */ 
@@ -33,9 +35,12 @@
  /* Tras cada salto de linea se reinicia yycolumn */
 [\n]								{yycolumn = 1;}
 [\t]								{}
+[\r]								{yycolumn = 1;}
+[\b]								{yycolumn -= 1;}
   /*Tipos de datos */
+
 float 								{ return FLO;}
-int								{ return ENT;}
+int									{ return ENT;}
 double								{ return DOB;}
 char								{ return CARA;}
 void								{ return VAC;}
@@ -94,8 +99,17 @@ false								{return FALSE;}
 
 
 	/* CONSTANTES */
-([a-zA-Z]|"_")([a-zA-Z0-9]|"_")*	{return ID;}
--?([0-9])+(.([0-9])+)?				{return NUM;}
+([a-zA-Z]|"_")([a-zA-Z0-9]|"_")*	{strcpy(yylval.id, yytext);
+										return ID;}
+-?[0-9]+							{strcpy(yylval.num.val, yytext);
+										yylval.num.type = 1;
+										return NUM;}
+-?[0-9]*"."[0-9]+[fF]				{strcpy(yylval.num.val, yytext);
+										yylval.num.type = 2;
+										return NUM;}
+-?[0-9]*"."[0-9]					{strcpy(yylval.num.val, yytext);
+										yylval.num.type = 3;
+										return NUM;}					
 \'.\'								{return CHAR;}
 \".+\"								{return CADE;}
 .									{printf("\n\tError léxico en la línea %d, columna %d,  causado por : %s \n", yylineno,yycolumn,yytext);}							
