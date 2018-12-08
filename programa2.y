@@ -30,7 +30,7 @@
 %token<id> ID
 %token<num> NUM
 %token ENT FLO DOB CARA VAC ESTR
-%token FUNC  PYC SI SINO MIEN HACER PARA 
+%token FUNC  PYC MIEN HACER PARA 
 %token RET SWI BREA PRIN CASE DEF DP PUNTO CADE
 %token CHAR TRUE FALSE  
 %right ASIGNACION
@@ -44,10 +44,11 @@
 %right NOT
 %left PARI PARD CORI CORD
 %nonassoc LLAI LLAD 
-%left uni
+%left SI
+%left SINO
 %%
 programa: declaraciones funciones;
-declaraciones: tipo lista PYC 
+declaraciones: tipo lista PYC declaraciones 
 		| ;
 tipo:	 ENT
 	|FLO
@@ -55,23 +56,31 @@ tipo:	 ENT
 	|CARA
 	|VAC
 	|ESTR LLAI declaraciones LLAD ;
+
 lista:	lista COMA ID arreglo 
 	|ID arreglo;
+
 arreglo: CORI NUM CORD arreglo 
 	 | ;
+
 funciones: FUNC tipo ID PARI argumentos PARD LLAI declaraciones sentencias LLAD funciones
 	  | ;
+
 argumentos: lista_argumentos
 		|;
+
 lista_argumentos: lista_argumentos COMA tipo ID parte_arreglo 
 		  |tipo ID parte_arreglo ;
+
 parte_arreglo: CORI CORD parte_arreglo
 		| ;
-sentencias: sentencia sentencias
+
+sentencias: sentencias sentencia
 		|sentencia;
+
 sentencia: sentencia sentencia 
 	|SI PARI condicion PARD sentencia
-	|SI PARI condicion PARD sentencia SINO sentencia %prec uni
+	|SI PARI condicion PARD sentencia SINO sentencia 
 	|MIEN PARI condicion PARD sentencia
 	|HACER sentencia MIEN PARI condicion PARD PYC
 	|PARA PARI sentencia PYC condicion PYC sentencia PARD sentencia
@@ -82,15 +91,20 @@ sentencia: sentencia sentencia
 	|SWI PARI expresion PARD LLAI casos predeterminado LLAD
 	|BREA PYC
 	|PRIN expresion PYC ;
+
 casos: CASE DP NUM sentencias predeterminado
 	| ;
+
 predeterminado: DEF DP sentencias 
 		| ;
+
 parte_izquierda: ID
 		|var_arreglo
 		|ID PUNTO ID ;
+
 var_arreglo: ID CORI expresion CORD 
 		|var_arreglo CORI expresion CORD;
+
 expresion: expresion MAS expresion
 		|expresion MENOS expresion
 		|expresion MUL expresion
@@ -101,10 +115,13 @@ expresion: expresion MAS expresion
 		|NUM
 		|CHAR
 		|ID PARI parametro PARD ;
+
 parametro: 
 		|lista_param;
+
 lista_param: lista_param COMA expresion
 		|expresion ;
+
 condicion: condicion OR condicion
 		|condicion AND condicion
 		|NOT condicion
@@ -112,6 +129,7 @@ condicion: condicion OR condicion
 		|expresion relacional expresion
 		|TRUE
 		|FALSE;
+
 relacional: MAYORQUE
 		|MENORQUE
 		|MAYORIGUAL
