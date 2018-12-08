@@ -75,10 +75,10 @@ lista_argumentos: lista_argumentos COMA tipo ID parte_arreglo
 parte_arreglo: CORI CORD parte_arreglo
 		| ;
 
-sentencias: sentencias sentencia
+sentencias: sentencia sentencias
 		|sentencia;
 
-sentencia: sentencia sentencia 
+sentencia: sentencias
 	|SI PARI condicion PARD sentencia
 	|SI PARI condicion PARD sentencia SINO sentencia 
 	|MIEN PARI condicion PARD sentencia
@@ -92,10 +92,10 @@ sentencia: sentencia sentencia
 	|BREA PYC
 	|PRIN expresion PYC ;
 
-casos: CASE DP NUM sentencias predeterminado
+casos: CASE DP NUM sentencia predeterminado
 	| ;
 
-predeterminado: DEF DP sentencias 
+predeterminado: DEF DP sentencia 
 		| ;
 
 parte_izquierda: ID
