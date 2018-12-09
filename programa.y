@@ -3,31 +3,13 @@
  #include <stdbool.h>
  #include<stdio.h>
  #include<stdlib.h>
- #include "tablasTipos.h"
- #include "attributes.h"
+ #include"attributes.h"
+ #include"symtab.h"
  extern int yylex();
  extern int yylineno;
  extern char *yytext;
  void yyerror(char *);
-
-/* Variable para la tabla de símbolos*/
- SLista TS;
- TLista TT;
-
-/* Variable para el conteo de direcciones */
-int dir=0;
-
-/* Variables para guardar el tipo y ancho actual */
-int current_type;
-int current_dim;
-
-/* Funciones auxiliares al análisis semántico y generación de código intermedio */
-void init();
-
-
-
 %}
-
 
 %union{
 	numero num;	
@@ -45,125 +27,113 @@ void init();
 	}siguientesp;
 	int rel;
 }
-
-
-
 %token<id> ID
 %token<num> NUM
 %token ENT FLO DOB CARA VAC ESTR
-%token  FUNC COMA  PYCOMA SI SINO MIEN HACER PARA 
+%token FUNC  PYC MIEN HACER PARA 
 %token RET SWI BREA PRIN CASE DEF DP PUNTO CADE
-%token CHAR  TRUE FALSE  
+%token CHAR TRUE FALSE  
 %right ASIGNACION
+%left COMA
 %left OR
 %left AND
 %left IGUAL DIFERENTEQUE
-%left MAYORQUE  MENORQUE MAYORIGUAL MENORIGUAL
+%left MAYORQUE MENORQUE MAYORIGUAL MENORIGUAL
 %left MAS MENOS
 %left MUL DIV MODULO
 %right NOT
-%left PARI PARD 
-%nonassoc LLAI LLAD CORI CORD
+%left PARI PARD CORI CORD
+%nonassoc LLAI LLAD 
 %left SI
 %left SINO
-
-
-
-%type<tipo> tipo
-%type<booleanos> cond
-%type<siguientes> sent 
-%type<expresion> exp
-%type<rel> relacional
-
-%start prog 
 %%
-/*1.-programa -> declaraciones funciones*/
-prog:	{init();} decl func ;
+programa: declaraciones funciones;
+declaraciones: tipo lista PYC declaraciones 
+		| ;
+tipo:	 ENT
+	|FLO
+	|DOB
+	|CARA
+	|VAC
+	|ESTR LLAI declaraciones LLAD ;
 
-/*2.-declaraciones-> tipo lista; | epsilon*/
-decl: tipo {current_type = $1.type; current_dim = $1.dim;} lista PYCOMA | ;
+lista:	lista COMA ID arreglo 
+	|ID arreglo;
 
-/*3.-tipo-> int|float|double|char|void|struct{declaraciones}*/
-tipo: ENT {$$.type=2; $$.dim=4;} | FLO {$$.type=3; $$.dim=4;}| DOB{$$.type=4; $$.dim=8;} | CARA{$$.type=1; $$.dim=1;} | VAC {$$.type=0; $$.dim=0;} | ESTR LLAI decl LLAD ;
+arreglo: CORI NUM CORD arreglo 
+	 | ;
 
-/*4.-lista-> lista, id arreglo | id arreglo*/
-lista: lista COMA ID {	if(ExisteS(TS,$3)!=0)
-				printf("Error, identificador repetido\n");
-			else{
-				insertSimbol(&TS,getLastSymbol(TS)+1,$3,current_type,dir,"var",NULL);
-				dir+=getTam(TT,current_type);}
-			} arreglo | ID {	if(ExisteS(TS,$1)!=0)
-				printf("Error, identificador repetido\n");
-			else{
-				insertSimbol(&TS,getLastSymbol(TS)+1,$1,current_type,dir,"var",NULL);
-				dir+=getTam(TT,current_type);}
-			} arreglo;
+funciones: FUNC tipo ID PARI argumentos PARD LLAI declaraciones sentencias LLAD funciones
+	  | ;
 
-/*5.-arreglo->[numero] arreglo | epsilon*/
-arreglo: CORI NUM CORD arreglo {if($2.type=2){
-					insertTipo(&TT,getLastType(TT)+1,"array",getTam(TT,$2.type),atoi($2.val),getBase(TT,$2.type));
-				}else{
-					printf("Error numero no entero\n");			
-				}} | ;
+argumentos: lista_argumentos
+		|;
 
-/*6.-funciones-> func tipo id(argumentos){declaraciones sentencia} funciones|epsilon*/
-func: FUNC tipo ID {	if(ExisteS(TS,$3)!=0)
-				printf("Error, identificador repetido\n");
-			else
-				insertSimbol(&TS,getLastSymbol(TS)+1,$3,current_type,dir,"var",NULL);
-			} PARI args PARD LLAI decl sent LLAD func | ;
+lista_argumentos: lista_argumentos COMA tipo ID parte_arreglo 
+		  |tipo ID parte_arreglo ;
 
-/*7.-argumentos->lista_argumentos|epsilon*/
-args: lista_args | ;
+parte_arreglo: CORI CORD parte_arreglo
+		| ;
 
-/*8.-lista_argumentos->lista_argumentos,tipo id parte_arreglo | tipo id parte_arreglo*/
-lista_args: lista_args COMA tipo ID parte_arreglo | tipo ID parte_arreglo;
+sentencias: sentencias sentencia
+		|sentencia;
 
-/*9.-parte_arreglo->[]parte_arreglo|epsilon*/
-parte_arreglo: CORI CORD parte_arreglo| ;
+sentencia:  
+	SI PARI condicion PARD sentencia
+	|SI PARI condicion PARD sentencia SINO sentencia 
+	|MIEN PARI condicion PARD sentencia
+	|HACER sentencia MIEN PARI condicion PARD PYC
+	|PARA PARI sentencia PYC condicion PYC sentencia PARD sentencia
+	|parte_izquierda ASIGNACION expresion PYC
+	|RET expresion PYC
+	|RET PYC
+	|LLAI sentencia LLAD
+	|SWI PARI expresion PARD LLAI casos predeterminado LLAD
+	|BREA PYC
+	|PRIN expresion PYC ;
 
-/*10.-sentencia->sentencia sentencia | if(condicion) sentencia | if (condicion) sentencia else sentencia |
-while(condicion) sentencia | do sentencia while(condicion); | for(sentencia;condicion;sentencia) sentencia |
-parte_izquierda=expresion; | return expresion; | return; | {sentencia} | switch(expresion){casos predeterminado}
-| break;| print expresion; */
+casos: CASE NUM DP sentencias casos
+	| ;
 
-sent: sent sent | SI PARI cond PARD sent | SI PARI cond PARD sent SINO sent | MIEN PARI cond PARD sent 
-| HACER sent MIEN PARI cond PARD PYCOMA | PARA PARI sent PYCOMA cond PYCOMA sent PARD sent | parte_iz ASIGNACION exp PYCOMA 
-| RET exp PYCOMA | RET PYCOMA | LLAI exp LLAD | SWI PARI exp PARD LLAI casos pred LLAD | BREA PYCOMA | PRIN exp PYCOMA ;
+predeterminado: DEF DP sentencias
+		| ;
 
-/*11.-casos->case: numero sentencia predeterminado | epsilon */
-casos: CASE DP NUM sent pred | ;
+parte_izquierda: ID
+		|var_arreglo
+		|ID PUNTO ID ;
 
-/*12-predeterminado->default: sentencia| epsilon*/
-pred: DEF DP sent | ;
+var_arreglo: ID CORI expresion CORD 
+		|var_arreglo CORI expresion CORD;
 
-/*13.-parte_izquierda->id|var_arreglo|id.id*/
-parte_iz: ID | var_arreglo | ID PUNTO ID;
+expresion: expresion MAS expresion
+		|expresion MENOS expresion
+		|expresion MUL expresion
+		|expresion DIV expresion
+		|expresion MODULO expresion
+		|var_arreglo
+		|CADE
+		|NUM
+		|CHAR
+		|ID PARI parametro PARD ;
 
-/*14.-var_arreglo->id[expresion]|var_arreglo[expresion] */
-var_arreglo: ID CORI exp CORD | var_arreglo CORI exp CORD;
+parametro: 
+		|lista_param;
 
-/*15.-expresion->expresion + expresion|expresion - expresion| expresion * expresion| expresion / expresion
-| expresion % expresion | var_arreglo |cadenas | numero | caracter| id(parametros)*/
-exp: exp MAS exp | exp MENOS exp | exp MUL exp | exp DIV exp | exp MODULO exp | var_arreglo | CADE | NUM | CHAR | ID PARI param PARD;
+lista_param: lista_param COMA expresion
+		|expresion ;
 
-/*16.-parametros->epsilon|lista_param*/
-param: lista_param | ;
+condicion: condicion OR condicion
+		|condicion AND condicion
+		|NOT condicion
+		|PARI condicion PARD
+		|expresion relacional expresion
+		|TRUE
+		|FALSE;
 
-/*17.-lista_param->lista_param,expresion|expresion*/
-lista_param: lista_param COMA exp | exp;
-
-/*18.-condicion-> condicion || condicion | condicion && condicion | !condicion | (condicion) | expresion relacional expresion
-| true | false*/
-cond: cond OR cond | cond AND cond | NOT cond | PARI cond PARD | exp relacional exp | TRUE | FALSE ;
-
-/*19.-relacional-> <|>|<=|>=|!=|==*/
-relacional: MAYORQUE | MENORQUE | MAYORIGUAL | MENORIGUAL| DIFERENTEQUE | IGUAL ;
+relacional: MAYORQUE
+		|MENORQUE
+		|MAYORIGUAL
+		|MENORIGUAL
+		|DIFERENTEQUE
+		|IGUAL ; 
 %%
-void init(){    
-    Crear_tablaS(&TS);  
-    Crear_tablaT(&TT);
-}
-void yyerror(char *s){
-	printf ("\n\tError sintactico en la linea : %d \n\tProvocado después de: %s \n " ,yylineno, yytext);
-	} 
