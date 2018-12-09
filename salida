@@ -1,0 +1,2032 @@
+Estado 160 conflictos: 1 desplazamiento/reducción
+
+
+Gramática
+
+    0 $accept: programa $end
+
+    1 programa: declaraciones funciones
+
+    2 declaraciones: tipo lista PYC declaraciones
+    3              | %empty
+
+    4 tipo: ENT
+    5     | FLO
+    6     | DOB
+    7     | CARA
+    8     | VAC
+    9     | ESTR LLAI declaraciones LLAD
+
+   10 lista: lista COMA ID arreglo
+   11      | ID arreglo
+
+   12 arreglo: CORI NUM CORD arreglo
+   13        | %empty
+
+   14 funciones: FUNC tipo ID PARI argumentos PARD LLAI declaraciones sentencias LLAD funciones
+   15          | %empty
+
+   16 argumentos: lista_argumentos
+   17           | %empty
+
+   18 lista_argumentos: lista_argumentos COMA tipo ID parte_arreglo
+   19                 | tipo ID parte_arreglo
+
+   20 parte_arreglo: CORI CORD parte_arreglo
+   21              | %empty
+
+   22 sentencias: sentencias sentencia
+   23           | sentencia
+
+   24 sentencia: SI PARI condicion PARD sentencia
+   25          | SI PARI condicion PARD sentencia SINO sentencia
+   26          | MIEN PARI condicion PARD sentencia
+   27          | HACER sentencia MIEN PARI condicion PARD PYC
+   28          | PARA PARI sentencia PYC condicion PYC sentencia PARD sentencia
+   29          | parte_izquierda ASIGNACION expresion PYC
+   30          | RET expresion PYC
+   31          | RET PYC
+   32          | LLAI sentencia LLAD
+   33          | SWI PARI expresion PARD LLAI casos predeterminado LLAD
+   34          | BREA PYC
+   35          | PRIN expresion PYC
+
+   36 casos: CASE DP NUM sentencia predeterminado
+   37      | %empty
+
+   38 predeterminado: DEF DP sentencia
+   39               | %empty
+
+   40 parte_izquierda: ID
+   41                | var_arreglo
+   42                | ID PUNTO ID
+
+   43 var_arreglo: ID CORI expresion CORD
+   44            | var_arreglo CORI expresion CORD
+
+   45 expresion: expresion MAS expresion
+   46          | expresion MENOS expresion
+   47          | expresion MUL expresion
+   48          | expresion DIV expresion
+   49          | expresion MODULO expresion
+   50          | var_arreglo
+   51          | CADE
+   52          | NUM
+   53          | CHAR
+   54          | ID PARI parametro PARD
+
+   55 parametro: %empty
+   56          | lista_param
+
+   57 lista_param: lista_param COMA expresion
+   58            | expresion
+
+   59 condicion: condicion OR condicion
+   60          | condicion AND condicion
+   61          | NOT condicion
+   62          | PARI condicion PARD
+   63          | expresion relacional expresion
+   64          | TRUE
+   65          | FALSE
+
+   66 relacional: MAYORQUE
+   67           | MENORQUE
+   68           | MAYORIGUAL
+   69           | MENORIGUAL
+   70           | DIFERENTEQUE
+   71           | IGUAL
+
+
+Terminales con las reglas donde aparecen
+
+$end (0) 0
+error (256)
+ID (258) 10 11 14 18 19 40 42 43 54
+NUM (259) 12 36 52
+ENT (260) 4
+FLO (261) 5
+DOB (262) 6
+CARA (263) 7
+VAC (264) 8
+ESTR (265) 9
+FUNC (266) 14
+PYC (267) 2 27 28 29 30 31 34 35
+MIEN (268) 26 27
+HACER (269) 27
+PARA (270) 28
+RET (271) 30 31
+SWI (272) 33
+BREA (273) 34
+PRIN (274) 35
+CASE (275) 36
+DEF (276) 38
+DP (277) 36 38
+PUNTO (278) 42
+CADE (279) 51
+CHAR (280) 53
+TRUE (281) 64
+FALSE (282) 65
+ASIGNACION (283) 29
+COMA (284) 10 18 57
+OR (285) 59
+AND (286) 60
+IGUAL (287) 71
+DIFERENTEQUE (288) 70
+MAYORQUE (289) 66
+MENORQUE (290) 67
+MAYORIGUAL (291) 68
+MENORIGUAL (292) 69
+MAS (293) 45
+MENOS (294) 46
+MUL (295) 47
+DIV (296) 48
+MODULO (297) 49
+NOT (298) 61
+PARI (299) 14 24 25 26 27 28 33 54 62
+PARD (300) 14 24 25 26 27 28 33 54 62
+CORI (301) 12 20 43 44
+CORD (302) 12 20 43 44
+LLAI (303) 9 14 32 33
+LLAD (304) 9 14 32 33
+SI (305) 24 25
+SINO (306) 25
+
+
+No terminales con las reglas donde aparecen
+
+$accept (52)
+    en la izquierda: 0
+programa (53)
+    en la izquierda: 1, en la derecha: 0
+declaraciones (54)
+    en la izquierda: 2 3, en la derecha: 1 2 9 14
+tipo (55)
+    en la izquierda: 4 5 6 7 8 9, en la derecha: 2 14 18 19
+lista (56)
+    en la izquierda: 10 11, en la derecha: 2 10
+arreglo (57)
+    en la izquierda: 12 13, en la derecha: 10 11 12
+funciones (58)
+    en la izquierda: 14 15, en la derecha: 1 14
+argumentos (59)
+    en la izquierda: 16 17, en la derecha: 14
+lista_argumentos (60)
+    en la izquierda: 18 19, en la derecha: 16 18
+parte_arreglo (61)
+    en la izquierda: 20 21, en la derecha: 18 19 20
+sentencias (62)
+    en la izquierda: 22 23, en la derecha: 14 22
+sentencia (63)
+    en la izquierda: 24 25 26 27 28 29 30 31 32 33 34 35, en la derecha:
+    22 23 24 25 26 27 28 32 36 38
+casos (64)
+    en la izquierda: 36 37, en la derecha: 33
+predeterminado (65)
+    en la izquierda: 38 39, en la derecha: 33 36
+parte_izquierda (66)
+    en la izquierda: 40 41 42, en la derecha: 29
+var_arreglo (67)
+    en la izquierda: 43 44, en la derecha: 41 44 50
+expresion (68)
+    en la izquierda: 45 46 47 48 49 50 51 52 53 54, en la derecha:
+    29 30 33 35 43 44 45 46 47 48 49 57 58 63
+parametro (69)
+    en la izquierda: 55 56, en la derecha: 54
+lista_param (70)
+    en la izquierda: 57 58, en la derecha: 56 57
+condicion (71)
+    en la izquierda: 59 60 61 62 63 64 65, en la derecha: 24 25 26
+    27 28 59 60 61 62
+relacional (72)
+    en la izquierda: 66 67 68 69 70 71, en la derecha: 63
+
+
+Estado 0
+
+    0 $accept: . programa $end
+
+    ENT   desplazar e ir al estado 1
+    FLO   desplazar e ir al estado 2
+    DOB   desplazar e ir al estado 3
+    CARA  desplazar e ir al estado 4
+    VAC   desplazar e ir al estado 5
+    ESTR  desplazar e ir al estado 6
+
+    $default  reduce usando la regla 3 (declaraciones)
+
+    programa       ir al estado 7
+    declaraciones  ir al estado 8
+    tipo           ir al estado 9
+
+
+Estado 1
+
+    4 tipo: ENT .
+
+    $default  reduce usando la regla 4 (tipo)
+
+
+Estado 2
+
+    5 tipo: FLO .
+
+    $default  reduce usando la regla 5 (tipo)
+
+
+Estado 3
+
+    6 tipo: DOB .
+
+    $default  reduce usando la regla 6 (tipo)
+
+
+Estado 4
+
+    7 tipo: CARA .
+
+    $default  reduce usando la regla 7 (tipo)
+
+
+Estado 5
+
+    8 tipo: VAC .
+
+    $default  reduce usando la regla 8 (tipo)
+
+
+Estado 6
+
+    9 tipo: ESTR . LLAI declaraciones LLAD
+
+    LLAI  desplazar e ir al estado 10
+
+
+Estado 7
+
+    0 $accept: programa . $end
+
+    $end  desplazar e ir al estado 11
+
+
+Estado 8
+
+    1 programa: declaraciones . funciones
+
+    FUNC  desplazar e ir al estado 12
+
+    $default  reduce usando la regla 15 (funciones)
+
+    funciones  ir al estado 13
+
+
+Estado 9
+
+    2 declaraciones: tipo . lista PYC declaraciones
+
+    ID  desplazar e ir al estado 14
+
+    lista  ir al estado 15
+
+
+Estado 10
+
+    9 tipo: ESTR LLAI . declaraciones LLAD
+
+    ENT   desplazar e ir al estado 1
+    FLO   desplazar e ir al estado 2
+    DOB   desplazar e ir al estado 3
+    CARA  desplazar e ir al estado 4
+    VAC   desplazar e ir al estado 5
+    ESTR  desplazar e ir al estado 6
+
+    $default  reduce usando la regla 3 (declaraciones)
+
+    declaraciones  ir al estado 16
+    tipo           ir al estado 9
+
+
+Estado 11
+
+    0 $accept: programa $end .
+
+    $default  aceptar
+
+
+Estado 12
+
+   14 funciones: FUNC . tipo ID PARI argumentos PARD LLAI declaraciones sentencias LLAD funciones
+
+    ENT   desplazar e ir al estado 1
+    FLO   desplazar e ir al estado 2
+    DOB   desplazar e ir al estado 3
+    CARA  desplazar e ir al estado 4
+    VAC   desplazar e ir al estado 5
+    ESTR  desplazar e ir al estado 6
+
+    tipo  ir al estado 17
+
+
+Estado 13
+
+    1 programa: declaraciones funciones .
+
+    $default  reduce usando la regla 1 (programa)
+
+
+Estado 14
+
+   11 lista: ID . arreglo
+
+    CORI  desplazar e ir al estado 18
+
+    $default  reduce usando la regla 13 (arreglo)
+
+    arreglo  ir al estado 19
+
+
+Estado 15
+
+    2 declaraciones: tipo lista . PYC declaraciones
+   10 lista: lista . COMA ID arreglo
+
+    PYC   desplazar e ir al estado 20
+    COMA  desplazar e ir al estado 21
+
+
+Estado 16
+
+    9 tipo: ESTR LLAI declaraciones . LLAD
+
+    LLAD  desplazar e ir al estado 22
+
+
+Estado 17
+
+   14 funciones: FUNC tipo . ID PARI argumentos PARD LLAI declaraciones sentencias LLAD funciones
+
+    ID  desplazar e ir al estado 23
+
+
+Estado 18
+
+   12 arreglo: CORI . NUM CORD arreglo
+
+    NUM  desplazar e ir al estado 24
+
+
+Estado 19
+
+   11 lista: ID arreglo .
+
+    $default  reduce usando la regla 11 (lista)
+
+
+Estado 20
+
+    2 declaraciones: tipo lista PYC . declaraciones
+
+    ENT   desplazar e ir al estado 1
+    FLO   desplazar e ir al estado 2
+    DOB   desplazar e ir al estado 3
+    CARA  desplazar e ir al estado 4
+    VAC   desplazar e ir al estado 5
+    ESTR  desplazar e ir al estado 6
+
+    $default  reduce usando la regla 3 (declaraciones)
+
+    declaraciones  ir al estado 25
+    tipo           ir al estado 9
+
+
+Estado 21
+
+   10 lista: lista COMA . ID arreglo
+
+    ID  desplazar e ir al estado 26
+
+
+Estado 22
+
+    9 tipo: ESTR LLAI declaraciones LLAD .
+
+    $default  reduce usando la regla 9 (tipo)
+
+
+Estado 23
+
+   14 funciones: FUNC tipo ID . PARI argumentos PARD LLAI declaraciones sentencias LLAD funciones
+
+    PARI  desplazar e ir al estado 27
+
+
+Estado 24
+
+   12 arreglo: CORI NUM . CORD arreglo
+
+    CORD  desplazar e ir al estado 28
+
+
+Estado 25
+
+    2 declaraciones: tipo lista PYC declaraciones .
+
+    $default  reduce usando la regla 2 (declaraciones)
+
+
+Estado 26
+
+   10 lista: lista COMA ID . arreglo
+
+    CORI  desplazar e ir al estado 18
+
+    $default  reduce usando la regla 13 (arreglo)
+
+    arreglo  ir al estado 29
+
+
+Estado 27
+
+   14 funciones: FUNC tipo ID PARI . argumentos PARD LLAI declaraciones sentencias LLAD funciones
+
+    ENT   desplazar e ir al estado 1
+    FLO   desplazar e ir al estado 2
+    DOB   desplazar e ir al estado 3
+    CARA  desplazar e ir al estado 4
+    VAC   desplazar e ir al estado 5
+    ESTR  desplazar e ir al estado 6
+
+    $default  reduce usando la regla 17 (argumentos)
+
+    tipo              ir al estado 30
+    argumentos        ir al estado 31
+    lista_argumentos  ir al estado 32
+
+
+Estado 28
+
+   12 arreglo: CORI NUM CORD . arreglo
+
+    CORI  desplazar e ir al estado 18
+
+    $default  reduce usando la regla 13 (arreglo)
+
+    arreglo  ir al estado 33
+
+
+Estado 29
+
+   10 lista: lista COMA ID arreglo .
+
+    $default  reduce usando la regla 10 (lista)
+
+
+Estado 30
+
+   19 lista_argumentos: tipo . ID parte_arreglo
+
+    ID  desplazar e ir al estado 34
+
+
+Estado 31
+
+   14 funciones: FUNC tipo ID PARI argumentos . PARD LLAI declaraciones sentencias LLAD funciones
+
+    PARD  desplazar e ir al estado 35
+
+
+Estado 32
+
+   16 argumentos: lista_argumentos .
+   18 lista_argumentos: lista_argumentos . COMA tipo ID parte_arreglo
+
+    COMA  desplazar e ir al estado 36
+
+    $default  reduce usando la regla 16 (argumentos)
+
+
+Estado 33
+
+   12 arreglo: CORI NUM CORD arreglo .
+
+    $default  reduce usando la regla 12 (arreglo)
+
+
+Estado 34
+
+   19 lista_argumentos: tipo ID . parte_arreglo
+
+    CORI  desplazar e ir al estado 37
+
+    $default  reduce usando la regla 21 (parte_arreglo)
+
+    parte_arreglo  ir al estado 38
+
+
+Estado 35
+
+   14 funciones: FUNC tipo ID PARI argumentos PARD . LLAI declaraciones sentencias LLAD funciones
+
+    LLAI  desplazar e ir al estado 39
+
+
+Estado 36
+
+   18 lista_argumentos: lista_argumentos COMA . tipo ID parte_arreglo
+
+    ENT   desplazar e ir al estado 1
+    FLO   desplazar e ir al estado 2
+    DOB   desplazar e ir al estado 3
+    CARA  desplazar e ir al estado 4
+    VAC   desplazar e ir al estado 5
+    ESTR  desplazar e ir al estado 6
+
+    tipo  ir al estado 40
+
+
+Estado 37
+
+   20 parte_arreglo: CORI . CORD parte_arreglo
+
+    CORD  desplazar e ir al estado 41
+
+
+Estado 38
+
+   19 lista_argumentos: tipo ID parte_arreglo .
+
+    $default  reduce usando la regla 19 (lista_argumentos)
+
+
+Estado 39
+
+   14 funciones: FUNC tipo ID PARI argumentos PARD LLAI . declaraciones sentencias LLAD funciones
+
+    ENT   desplazar e ir al estado 1
+    FLO   desplazar e ir al estado 2
+    DOB   desplazar e ir al estado 3
+    CARA  desplazar e ir al estado 4
+    VAC   desplazar e ir al estado 5
+    ESTR  desplazar e ir al estado 6
+
+    $default  reduce usando la regla 3 (declaraciones)
+
+    declaraciones  ir al estado 42
+    tipo           ir al estado 9
+
+
+Estado 40
+
+   18 lista_argumentos: lista_argumentos COMA tipo . ID parte_arreglo
+
+    ID  desplazar e ir al estado 43
+
+
+Estado 41
+
+   20 parte_arreglo: CORI CORD . parte_arreglo
+
+    CORI  desplazar e ir al estado 37
+
+    $default  reduce usando la regla 21 (parte_arreglo)
+
+    parte_arreglo  ir al estado 44
+
+
+Estado 42
+
+   14 funciones: FUNC tipo ID PARI argumentos PARD LLAI declaraciones . sentencias LLAD funciones
+
+    ID     desplazar e ir al estado 45
+    MIEN   desplazar e ir al estado 46
+    HACER  desplazar e ir al estado 47
+    PARA   desplazar e ir al estado 48
+    RET    desplazar e ir al estado 49
+    SWI    desplazar e ir al estado 50
+    BREA   desplazar e ir al estado 51
+    PRIN   desplazar e ir al estado 52
+    LLAI   desplazar e ir al estado 53
+    SI     desplazar e ir al estado 54
+
+    sentencias       ir al estado 55
+    sentencia        ir al estado 56
+    parte_izquierda  ir al estado 57
+    var_arreglo      ir al estado 58
+
+
+Estado 43
+
+   18 lista_argumentos: lista_argumentos COMA tipo ID . parte_arreglo
+
+    CORI  desplazar e ir al estado 37
+
+    $default  reduce usando la regla 21 (parte_arreglo)
+
+    parte_arreglo  ir al estado 59
+
+
+Estado 44
+
+   20 parte_arreglo: CORI CORD parte_arreglo .
+
+    $default  reduce usando la regla 20 (parte_arreglo)
+
+
+Estado 45
+
+   40 parte_izquierda: ID .
+   42                | ID . PUNTO ID
+   43 var_arreglo: ID . CORI expresion CORD
+
+    PUNTO  desplazar e ir al estado 60
+    CORI   desplazar e ir al estado 61
+
+    $default  reduce usando la regla 40 (parte_izquierda)
+
+
+Estado 46
+
+   26 sentencia: MIEN . PARI condicion PARD sentencia
+
+    PARI  desplazar e ir al estado 62
+
+
+Estado 47
+
+   27 sentencia: HACER . sentencia MIEN PARI condicion PARD PYC
+
+    ID     desplazar e ir al estado 45
+    MIEN   desplazar e ir al estado 46
+    HACER  desplazar e ir al estado 47
+    PARA   desplazar e ir al estado 48
+    RET    desplazar e ir al estado 49
+    SWI    desplazar e ir al estado 50
+    BREA   desplazar e ir al estado 51
+    PRIN   desplazar e ir al estado 52
+    LLAI   desplazar e ir al estado 53
+    SI     desplazar e ir al estado 54
+
+    sentencia        ir al estado 63
+    parte_izquierda  ir al estado 57
+    var_arreglo      ir al estado 58
+
+
+Estado 48
+
+   28 sentencia: PARA . PARI sentencia PYC condicion PYC sentencia PARD sentencia
+
+    PARI  desplazar e ir al estado 64
+
+
+Estado 49
+
+   30 sentencia: RET . expresion PYC
+   31          | RET . PYC
+
+    ID    desplazar e ir al estado 65
+    NUM   desplazar e ir al estado 66
+    PYC   desplazar e ir al estado 67
+    CADE  desplazar e ir al estado 68
+    CHAR  desplazar e ir al estado 69
+
+    var_arreglo  ir al estado 70
+    expresion    ir al estado 71
+
+
+Estado 50
+
+   33 sentencia: SWI . PARI expresion PARD LLAI casos predeterminado LLAD
+
+    PARI  desplazar e ir al estado 72
+
+
+Estado 51
+
+   34 sentencia: BREA . PYC
+
+    PYC  desplazar e ir al estado 73
+
+
+Estado 52
+
+   35 sentencia: PRIN . expresion PYC
+
+    ID    desplazar e ir al estado 65
+    NUM   desplazar e ir al estado 66
+    CADE  desplazar e ir al estado 68
+    CHAR  desplazar e ir al estado 69
+
+    var_arreglo  ir al estado 70
+    expresion    ir al estado 74
+
+
+Estado 53
+
+   32 sentencia: LLAI . sentencia LLAD
+
+    ID     desplazar e ir al estado 45
+    MIEN   desplazar e ir al estado 46
+    HACER  desplazar e ir al estado 47
+    PARA   desplazar e ir al estado 48
+    RET    desplazar e ir al estado 49
+    SWI    desplazar e ir al estado 50
+    BREA   desplazar e ir al estado 51
+    PRIN   desplazar e ir al estado 52
+    LLAI   desplazar e ir al estado 53
+    SI     desplazar e ir al estado 54
+
+    sentencia        ir al estado 75
+    parte_izquierda  ir al estado 57
+    var_arreglo      ir al estado 58
+
+
+Estado 54
+
+   24 sentencia: SI . PARI condicion PARD sentencia
+   25          | SI . PARI condicion PARD sentencia SINO sentencia
+
+    PARI  desplazar e ir al estado 76
+
+
+Estado 55
+
+   14 funciones: FUNC tipo ID PARI argumentos PARD LLAI declaraciones sentencias . LLAD funciones
+   22 sentencias: sentencias . sentencia
+
+    ID     desplazar e ir al estado 45
+    MIEN   desplazar e ir al estado 46
+    HACER  desplazar e ir al estado 47
+    PARA   desplazar e ir al estado 48
+    RET    desplazar e ir al estado 49
+    SWI    desplazar e ir al estado 50
+    BREA   desplazar e ir al estado 51
+    PRIN   desplazar e ir al estado 52
+    LLAI   desplazar e ir al estado 53
+    LLAD   desplazar e ir al estado 77
+    SI     desplazar e ir al estado 54
+
+    sentencia        ir al estado 78
+    parte_izquierda  ir al estado 57
+    var_arreglo      ir al estado 58
+
+
+Estado 56
+
+   23 sentencias: sentencia .
+
+    $default  reduce usando la regla 23 (sentencias)
+
+
+Estado 57
+
+   29 sentencia: parte_izquierda . ASIGNACION expresion PYC
+
+    ASIGNACION  desplazar e ir al estado 79
+
+
+Estado 58
+
+   41 parte_izquierda: var_arreglo .
+   44 var_arreglo: var_arreglo . CORI expresion CORD
+
+    CORI  desplazar e ir al estado 80
+
+    $default  reduce usando la regla 41 (parte_izquierda)
+
+
+Estado 59
+
+   18 lista_argumentos: lista_argumentos COMA tipo ID parte_arreglo .
+
+    $default  reduce usando la regla 18 (lista_argumentos)
+
+
+Estado 60
+
+   42 parte_izquierda: ID PUNTO . ID
+
+    ID  desplazar e ir al estado 81
+
+
+Estado 61
+
+   43 var_arreglo: ID CORI . expresion CORD
+
+    ID    desplazar e ir al estado 65
+    NUM   desplazar e ir al estado 66
+    CADE  desplazar e ir al estado 68
+    CHAR  desplazar e ir al estado 69
+
+    var_arreglo  ir al estado 70
+    expresion    ir al estado 82
+
+
+Estado 62
+
+   26 sentencia: MIEN PARI . condicion PARD sentencia
+
+    ID     desplazar e ir al estado 65
+    NUM    desplazar e ir al estado 66
+    CADE   desplazar e ir al estado 68
+    CHAR   desplazar e ir al estado 69
+    TRUE   desplazar e ir al estado 83
+    FALSE  desplazar e ir al estado 84
+    NOT    desplazar e ir al estado 85
+    PARI   desplazar e ir al estado 86
+
+    var_arreglo  ir al estado 70
+    expresion    ir al estado 87
+    condicion    ir al estado 88
+
+
+Estado 63
+
+   27 sentencia: HACER sentencia . MIEN PARI condicion PARD PYC
+
+    MIEN  desplazar e ir al estado 89
+
+
+Estado 64
+
+   28 sentencia: PARA PARI . sentencia PYC condicion PYC sentencia PARD sentencia
+
+    ID     desplazar e ir al estado 45
+    MIEN   desplazar e ir al estado 46
+    HACER  desplazar e ir al estado 47
+    PARA   desplazar e ir al estado 48
+    RET    desplazar e ir al estado 49
+    SWI    desplazar e ir al estado 50
+    BREA   desplazar e ir al estado 51
+    PRIN   desplazar e ir al estado 52
+    LLAI   desplazar e ir al estado 53
+    SI     desplazar e ir al estado 54
+
+    sentencia        ir al estado 90
+    parte_izquierda  ir al estado 57
+    var_arreglo      ir al estado 58
+
+
+Estado 65
+
+   43 var_arreglo: ID . CORI expresion CORD
+   54 expresion: ID . PARI parametro PARD
+
+    PARI  desplazar e ir al estado 91
+    CORI  desplazar e ir al estado 61
+
+
+Estado 66
+
+   52 expresion: NUM .
+
+    $default  reduce usando la regla 52 (expresion)
+
+
+Estado 67
+
+   31 sentencia: RET PYC .
+
+    $default  reduce usando la regla 31 (sentencia)
+
+
+Estado 68
+
+   51 expresion: CADE .
+
+    $default  reduce usando la regla 51 (expresion)
+
+
+Estado 69
+
+   53 expresion: CHAR .
+
+    $default  reduce usando la regla 53 (expresion)
+
+
+Estado 70
+
+   44 var_arreglo: var_arreglo . CORI expresion CORD
+   50 expresion: var_arreglo .
+
+    CORI  desplazar e ir al estado 80
+
+    $default  reduce usando la regla 50 (expresion)
+
+
+Estado 71
+
+   30 sentencia: RET expresion . PYC
+   45 expresion: expresion . MAS expresion
+   46          | expresion . MENOS expresion
+   47          | expresion . MUL expresion
+   48          | expresion . DIV expresion
+   49          | expresion . MODULO expresion
+
+    PYC     desplazar e ir al estado 92
+    MAS     desplazar e ir al estado 93
+    MENOS   desplazar e ir al estado 94
+    MUL     desplazar e ir al estado 95
+    DIV     desplazar e ir al estado 96
+    MODULO  desplazar e ir al estado 97
+
+
+Estado 72
+
+   33 sentencia: SWI PARI . expresion PARD LLAI casos predeterminado LLAD
+
+    ID    desplazar e ir al estado 65
+    NUM   desplazar e ir al estado 66
+    CADE  desplazar e ir al estado 68
+    CHAR  desplazar e ir al estado 69
+
+    var_arreglo  ir al estado 70
+    expresion    ir al estado 98
+
+
+Estado 73
+
+   34 sentencia: BREA PYC .
+
+    $default  reduce usando la regla 34 (sentencia)
+
+
+Estado 74
+
+   35 sentencia: PRIN expresion . PYC
+   45 expresion: expresion . MAS expresion
+   46          | expresion . MENOS expresion
+   47          | expresion . MUL expresion
+   48          | expresion . DIV expresion
+   49          | expresion . MODULO expresion
+
+    PYC     desplazar e ir al estado 99
+    MAS     desplazar e ir al estado 93
+    MENOS   desplazar e ir al estado 94
+    MUL     desplazar e ir al estado 95
+    DIV     desplazar e ir al estado 96
+    MODULO  desplazar e ir al estado 97
+
+
+Estado 75
+
+   32 sentencia: LLAI sentencia . LLAD
+
+    LLAD  desplazar e ir al estado 100
+
+
+Estado 76
+
+   24 sentencia: SI PARI . condicion PARD sentencia
+   25          | SI PARI . condicion PARD sentencia SINO sentencia
+
+    ID     desplazar e ir al estado 65
+    NUM    desplazar e ir al estado 66
+    CADE   desplazar e ir al estado 68
+    CHAR   desplazar e ir al estado 69
+    TRUE   desplazar e ir al estado 83
+    FALSE  desplazar e ir al estado 84
+    NOT    desplazar e ir al estado 85
+    PARI   desplazar e ir al estado 86
+
+    var_arreglo  ir al estado 70
+    expresion    ir al estado 87
+    condicion    ir al estado 101
+
+
+Estado 77
+
+   14 funciones: FUNC tipo ID PARI argumentos PARD LLAI declaraciones sentencias LLAD . funciones
+
+    FUNC  desplazar e ir al estado 12
+
+    $default  reduce usando la regla 15 (funciones)
+
+    funciones  ir al estado 102
+
+
+Estado 78
+
+   22 sentencias: sentencias sentencia .
+
+    $default  reduce usando la regla 22 (sentencias)
+
+
+Estado 79
+
+   29 sentencia: parte_izquierda ASIGNACION . expresion PYC
+
+    ID    desplazar e ir al estado 65
+    NUM   desplazar e ir al estado 66
+    CADE  desplazar e ir al estado 68
+    CHAR  desplazar e ir al estado 69
+
+    var_arreglo  ir al estado 70
+    expresion    ir al estado 103
+
+
+Estado 80
+
+   44 var_arreglo: var_arreglo CORI . expresion CORD
+
+    ID    desplazar e ir al estado 65
+    NUM   desplazar e ir al estado 66
+    CADE  desplazar e ir al estado 68
+    CHAR  desplazar e ir al estado 69
+
+    var_arreglo  ir al estado 70
+    expresion    ir al estado 104
+
+
+Estado 81
+
+   42 parte_izquierda: ID PUNTO ID .
+
+    $default  reduce usando la regla 42 (parte_izquierda)
+
+
+Estado 82
+
+   43 var_arreglo: ID CORI expresion . CORD
+   45 expresion: expresion . MAS expresion
+   46          | expresion . MENOS expresion
+   47          | expresion . MUL expresion
+   48          | expresion . DIV expresion
+   49          | expresion . MODULO expresion
+
+    MAS     desplazar e ir al estado 93
+    MENOS   desplazar e ir al estado 94
+    MUL     desplazar e ir al estado 95
+    DIV     desplazar e ir al estado 96
+    MODULO  desplazar e ir al estado 97
+    CORD    desplazar e ir al estado 105
+
+
+Estado 83
+
+   64 condicion: TRUE .
+
+    $default  reduce usando la regla 64 (condicion)
+
+
+Estado 84
+
+   65 condicion: FALSE .
+
+    $default  reduce usando la regla 65 (condicion)
+
+
+Estado 85
+
+   61 condicion: NOT . condicion
+
+    ID     desplazar e ir al estado 65
+    NUM    desplazar e ir al estado 66
+    CADE   desplazar e ir al estado 68
+    CHAR   desplazar e ir al estado 69
+    TRUE   desplazar e ir al estado 83
+    FALSE  desplazar e ir al estado 84
+    NOT    desplazar e ir al estado 85
+    PARI   desplazar e ir al estado 86
+
+    var_arreglo  ir al estado 70
+    expresion    ir al estado 87
+    condicion    ir al estado 106
+
+
+Estado 86
+
+   62 condicion: PARI . condicion PARD
+
+    ID     desplazar e ir al estado 65
+    NUM    desplazar e ir al estado 66
+    CADE   desplazar e ir al estado 68
+    CHAR   desplazar e ir al estado 69
+    TRUE   desplazar e ir al estado 83
+    FALSE  desplazar e ir al estado 84
+    NOT    desplazar e ir al estado 85
+    PARI   desplazar e ir al estado 86
+
+    var_arreglo  ir al estado 70
+    expresion    ir al estado 87
+    condicion    ir al estado 107
+
+
+Estado 87
+
+   45 expresion: expresion . MAS expresion
+   46          | expresion . MENOS expresion
+   47          | expresion . MUL expresion
+   48          | expresion . DIV expresion
+   49          | expresion . MODULO expresion
+   63 condicion: expresion . relacional expresion
+
+    IGUAL         desplazar e ir al estado 108
+    DIFERENTEQUE  desplazar e ir al estado 109
+    MAYORQUE      desplazar e ir al estado 110
+    MENORQUE      desplazar e ir al estado 111
+    MAYORIGUAL    desplazar e ir al estado 112
+    MENORIGUAL    desplazar e ir al estado 113
+    MAS           desplazar e ir al estado 93
+    MENOS         desplazar e ir al estado 94
+    MUL           desplazar e ir al estado 95
+    DIV           desplazar e ir al estado 96
+    MODULO        desplazar e ir al estado 97
+
+    relacional  ir al estado 114
+
+
+Estado 88
+
+   26 sentencia: MIEN PARI condicion . PARD sentencia
+   59 condicion: condicion . OR condicion
+   60          | condicion . AND condicion
+
+    OR    desplazar e ir al estado 115
+    AND   desplazar e ir al estado 116
+    PARD  desplazar e ir al estado 117
+
+
+Estado 89
+
+   27 sentencia: HACER sentencia MIEN . PARI condicion PARD PYC
+
+    PARI  desplazar e ir al estado 118
+
+
+Estado 90
+
+   28 sentencia: PARA PARI sentencia . PYC condicion PYC sentencia PARD sentencia
+
+    PYC  desplazar e ir al estado 119
+
+
+Estado 91
+
+   54 expresion: ID PARI . parametro PARD
+
+    ID    desplazar e ir al estado 65
+    NUM   desplazar e ir al estado 66
+    CADE  desplazar e ir al estado 68
+    CHAR  desplazar e ir al estado 69
+
+    $default  reduce usando la regla 55 (parametro)
+
+    var_arreglo  ir al estado 70
+    expresion    ir al estado 120
+    parametro    ir al estado 121
+    lista_param  ir al estado 122
+
+
+Estado 92
+
+   30 sentencia: RET expresion PYC .
+
+    $default  reduce usando la regla 30 (sentencia)
+
+
+Estado 93
+
+   45 expresion: expresion MAS . expresion
+
+    ID    desplazar e ir al estado 65
+    NUM   desplazar e ir al estado 66
+    CADE  desplazar e ir al estado 68
+    CHAR  desplazar e ir al estado 69
+
+    var_arreglo  ir al estado 70
+    expresion    ir al estado 123
+
+
+Estado 94
+
+   46 expresion: expresion MENOS . expresion
+
+    ID    desplazar e ir al estado 65
+    NUM   desplazar e ir al estado 66
+    CADE  desplazar e ir al estado 68
+    CHAR  desplazar e ir al estado 69
+
+    var_arreglo  ir al estado 70
+    expresion    ir al estado 124
+
+
+Estado 95
+
+   47 expresion: expresion MUL . expresion
+
+    ID    desplazar e ir al estado 65
+    NUM   desplazar e ir al estado 66
+    CADE  desplazar e ir al estado 68
+    CHAR  desplazar e ir al estado 69
+
+    var_arreglo  ir al estado 70
+    expresion    ir al estado 125
+
+
+Estado 96
+
+   48 expresion: expresion DIV . expresion
+
+    ID    desplazar e ir al estado 65
+    NUM   desplazar e ir al estado 66
+    CADE  desplazar e ir al estado 68
+    CHAR  desplazar e ir al estado 69
+
+    var_arreglo  ir al estado 70
+    expresion    ir al estado 126
+
+
+Estado 97
+
+   49 expresion: expresion MODULO . expresion
+
+    ID    desplazar e ir al estado 65
+    NUM   desplazar e ir al estado 66
+    CADE  desplazar e ir al estado 68
+    CHAR  desplazar e ir al estado 69
+
+    var_arreglo  ir al estado 70
+    expresion    ir al estado 127
+
+
+Estado 98
+
+   33 sentencia: SWI PARI expresion . PARD LLAI casos predeterminado LLAD
+   45 expresion: expresion . MAS expresion
+   46          | expresion . MENOS expresion
+   47          | expresion . MUL expresion
+   48          | expresion . DIV expresion
+   49          | expresion . MODULO expresion
+
+    MAS     desplazar e ir al estado 93
+    MENOS   desplazar e ir al estado 94
+    MUL     desplazar e ir al estado 95
+    DIV     desplazar e ir al estado 96
+    MODULO  desplazar e ir al estado 97
+    PARD    desplazar e ir al estado 128
+
+
+Estado 99
+
+   35 sentencia: PRIN expresion PYC .
+
+    $default  reduce usando la regla 35 (sentencia)
+
+
+Estado 100
+
+   32 sentencia: LLAI sentencia LLAD .
+
+    $default  reduce usando la regla 32 (sentencia)
+
+
+Estado 101
+
+   24 sentencia: SI PARI condicion . PARD sentencia
+   25          | SI PARI condicion . PARD sentencia SINO sentencia
+   59 condicion: condicion . OR condicion
+   60          | condicion . AND condicion
+
+    OR    desplazar e ir al estado 115
+    AND   desplazar e ir al estado 116
+    PARD  desplazar e ir al estado 129
+
+
+Estado 102
+
+   14 funciones: FUNC tipo ID PARI argumentos PARD LLAI declaraciones sentencias LLAD funciones .
+
+    $default  reduce usando la regla 14 (funciones)
+
+
+Estado 103
+
+   29 sentencia: parte_izquierda ASIGNACION expresion . PYC
+   45 expresion: expresion . MAS expresion
+   46          | expresion . MENOS expresion
+   47          | expresion . MUL expresion
+   48          | expresion . DIV expresion
+   49          | expresion . MODULO expresion
+
+    PYC     desplazar e ir al estado 130
+    MAS     desplazar e ir al estado 93
+    MENOS   desplazar e ir al estado 94
+    MUL     desplazar e ir al estado 95
+    DIV     desplazar e ir al estado 96
+    MODULO  desplazar e ir al estado 97
+
+
+Estado 104
+
+   44 var_arreglo: var_arreglo CORI expresion . CORD
+   45 expresion: expresion . MAS expresion
+   46          | expresion . MENOS expresion
+   47          | expresion . MUL expresion
+   48          | expresion . DIV expresion
+   49          | expresion . MODULO expresion
+
+    MAS     desplazar e ir al estado 93
+    MENOS   desplazar e ir al estado 94
+    MUL     desplazar e ir al estado 95
+    DIV     desplazar e ir al estado 96
+    MODULO  desplazar e ir al estado 97
+    CORD    desplazar e ir al estado 131
+
+
+Estado 105
+
+   43 var_arreglo: ID CORI expresion CORD .
+
+    $default  reduce usando la regla 43 (var_arreglo)
+
+
+Estado 106
+
+   59 condicion: condicion . OR condicion
+   60          | condicion . AND condicion
+   61          | NOT condicion .
+
+    $default  reduce usando la regla 61 (condicion)
+
+    El conflicto entre la regla 61 y el terminal OR se resuelve como reducción (OR < NOT).
+    El conflicto entre la regla 61 y el terminal AND se resuelve como reducción (AND < NOT).
+
+
+Estado 107
+
+   59 condicion: condicion . OR condicion
+   60          | condicion . AND condicion
+   62          | PARI condicion . PARD
+
+    OR    desplazar e ir al estado 115
+    AND   desplazar e ir al estado 116
+    PARD  desplazar e ir al estado 132
+
+
+Estado 108
+
+   71 relacional: IGUAL .
+
+    $default  reduce usando la regla 71 (relacional)
+
+
+Estado 109
+
+   70 relacional: DIFERENTEQUE .
+
+    $default  reduce usando la regla 70 (relacional)
+
+
+Estado 110
+
+   66 relacional: MAYORQUE .
+
+    $default  reduce usando la regla 66 (relacional)
+
+
+Estado 111
+
+   67 relacional: MENORQUE .
+
+    $default  reduce usando la regla 67 (relacional)
+
+
+Estado 112
+
+   68 relacional: MAYORIGUAL .
+
+    $default  reduce usando la regla 68 (relacional)
+
+
+Estado 113
+
+   69 relacional: MENORIGUAL .
+
+    $default  reduce usando la regla 69 (relacional)
+
+
+Estado 114
+
+   63 condicion: expresion relacional . expresion
+
+    ID    desplazar e ir al estado 65
+    NUM   desplazar e ir al estado 66
+    CADE  desplazar e ir al estado 68
+    CHAR  desplazar e ir al estado 69
+
+    var_arreglo  ir al estado 70
+    expresion    ir al estado 133
+
+
+Estado 115
+
+   59 condicion: condicion OR . condicion
+
+    ID     desplazar e ir al estado 65
+    NUM    desplazar e ir al estado 66
+    CADE   desplazar e ir al estado 68
+    CHAR   desplazar e ir al estado 69
+    TRUE   desplazar e ir al estado 83
+    FALSE  desplazar e ir al estado 84
+    NOT    desplazar e ir al estado 85
+    PARI   desplazar e ir al estado 86
+
+    var_arreglo  ir al estado 70
+    expresion    ir al estado 87
+    condicion    ir al estado 134
+
+
+Estado 116
+
+   60 condicion: condicion AND . condicion
+
+    ID     desplazar e ir al estado 65
+    NUM    desplazar e ir al estado 66
+    CADE   desplazar e ir al estado 68
+    CHAR   desplazar e ir al estado 69
+    TRUE   desplazar e ir al estado 83
+    FALSE  desplazar e ir al estado 84
+    NOT    desplazar e ir al estado 85
+    PARI   desplazar e ir al estado 86
+
+    var_arreglo  ir al estado 70
+    expresion    ir al estado 87
+    condicion    ir al estado 135
+
+
+Estado 117
+
+   26 sentencia: MIEN PARI condicion PARD . sentencia
+
+    ID     desplazar e ir al estado 45
+    MIEN   desplazar e ir al estado 46
+    HACER  desplazar e ir al estado 47
+    PARA   desplazar e ir al estado 48
+    RET    desplazar e ir al estado 49
+    SWI    desplazar e ir al estado 50
+    BREA   desplazar e ir al estado 51
+    PRIN   desplazar e ir al estado 52
+    LLAI   desplazar e ir al estado 53
+    SI     desplazar e ir al estado 54
+
+    sentencia        ir al estado 136
+    parte_izquierda  ir al estado 57
+    var_arreglo      ir al estado 58
+
+
+Estado 118
+
+   27 sentencia: HACER sentencia MIEN PARI . condicion PARD PYC
+
+    ID     desplazar e ir al estado 65
+    NUM    desplazar e ir al estado 66
+    CADE   desplazar e ir al estado 68
+    CHAR   desplazar e ir al estado 69
+    TRUE   desplazar e ir al estado 83
+    FALSE  desplazar e ir al estado 84
+    NOT    desplazar e ir al estado 85
+    PARI   desplazar e ir al estado 86
+
+    var_arreglo  ir al estado 70
+    expresion    ir al estado 87
+    condicion    ir al estado 137
+
+
+Estado 119
+
+   28 sentencia: PARA PARI sentencia PYC . condicion PYC sentencia PARD sentencia
+
+    ID     desplazar e ir al estado 65
+    NUM    desplazar e ir al estado 66
+    CADE   desplazar e ir al estado 68
+    CHAR   desplazar e ir al estado 69
+    TRUE   desplazar e ir al estado 83
+    FALSE  desplazar e ir al estado 84
+    NOT    desplazar e ir al estado 85
+    PARI   desplazar e ir al estado 86
+
+    var_arreglo  ir al estado 70
+    expresion    ir al estado 87
+    condicion    ir al estado 138
+
+
+Estado 120
+
+   45 expresion: expresion . MAS expresion
+   46          | expresion . MENOS expresion
+   47          | expresion . MUL expresion
+   48          | expresion . DIV expresion
+   49          | expresion . MODULO expresion
+   58 lista_param: expresion .
+
+    MAS     desplazar e ir al estado 93
+    MENOS   desplazar e ir al estado 94
+    MUL     desplazar e ir al estado 95
+    DIV     desplazar e ir al estado 96
+    MODULO  desplazar e ir al estado 97
+
+    $default  reduce usando la regla 58 (lista_param)
+
+
+Estado 121
+
+   54 expresion: ID PARI parametro . PARD
+
+    PARD  desplazar e ir al estado 139
+
+
+Estado 122
+
+   56 parametro: lista_param .
+   57 lista_param: lista_param . COMA expresion
+
+    COMA  desplazar e ir al estado 140
+
+    $default  reduce usando la regla 56 (parametro)
+
+
+Estado 123
+
+   45 expresion: expresion . MAS expresion
+   45          | expresion MAS expresion .
+   46          | expresion . MENOS expresion
+   47          | expresion . MUL expresion
+   48          | expresion . DIV expresion
+   49          | expresion . MODULO expresion
+
+    MUL     desplazar e ir al estado 95
+    DIV     desplazar e ir al estado 96
+    MODULO  desplazar e ir al estado 97
+
+    $default  reduce usando la regla 45 (expresion)
+
+    El conflicto entre la regla 45 y el terminal MAS se resuelve como reducción (%left MAS).
+    El conflicto entre la regla 45 y el terminal MENOS se resuelve como reducción (%left MENOS).
+    El conflicto entre la regla 45 y el aviso MUL se resuelve como cambio. (MAS < MUL).
+    El conflicto entre la regla 45 y el aviso DIV se resuelve como cambio. (MAS < DIV).
+    El conflicto entre la regla 45 y el aviso MODULO se resuelve como cambio. (MAS < MODULO).
+
+
+Estado 124
+
+   45 expresion: expresion . MAS expresion
+   46          | expresion . MENOS expresion
+   46          | expresion MENOS expresion .
+   47          | expresion . MUL expresion
+   48          | expresion . DIV expresion
+   49          | expresion . MODULO expresion
+
+    MUL     desplazar e ir al estado 95
+    DIV     desplazar e ir al estado 96
+    MODULO  desplazar e ir al estado 97
+
+    $default  reduce usando la regla 46 (expresion)
+
+    El conflicto entre la regla 46 y el terminal MAS se resuelve como reducción (%left MAS).
+    El conflicto entre la regla 46 y el terminal MENOS se resuelve como reducción (%left MENOS).
+    El conflicto entre la regla 46 y el aviso MUL se resuelve como cambio. (MENOS < MUL).
+    El conflicto entre la regla 46 y el aviso DIV se resuelve como cambio. (MENOS < DIV).
+    El conflicto entre la regla 46 y el aviso MODULO se resuelve como cambio. (MENOS < MODULO).
+
+
+Estado 125
+
+   45 expresion: expresion . MAS expresion
+   46          | expresion . MENOS expresion
+   47          | expresion . MUL expresion
+   47          | expresion MUL expresion .
+   48          | expresion . DIV expresion
+   49          | expresion . MODULO expresion
+
+    $default  reduce usando la regla 47 (expresion)
+
+    El conflicto entre la regla 47 y el terminal MAS se resuelve como reducción (MAS < MUL).
+    El conflicto entre la regla 47 y el terminal MENOS se resuelve como reducción (MENOS < MUL).
+    El conflicto entre la regla 47 y el terminal MUL se resuelve como reducción (%left MUL).
+    El conflicto entre la regla 47 y el terminal DIV se resuelve como reducción (%left DIV).
+    El conflicto entre la regla 47 y el terminal MODULO se resuelve como reducción (%left MODULO).
+
+
+Estado 126
+
+   45 expresion: expresion . MAS expresion
+   46          | expresion . MENOS expresion
+   47          | expresion . MUL expresion
+   48          | expresion . DIV expresion
+   48          | expresion DIV expresion .
+   49          | expresion . MODULO expresion
+
+    $default  reduce usando la regla 48 (expresion)
+
+    El conflicto entre la regla 48 y el terminal MAS se resuelve como reducción (MAS < DIV).
+    El conflicto entre la regla 48 y el terminal MENOS se resuelve como reducción (MENOS < DIV).
+    El conflicto entre la regla 48 y el terminal MUL se resuelve como reducción (%left MUL).
+    El conflicto entre la regla 48 y el terminal DIV se resuelve como reducción (%left DIV).
+    El conflicto entre la regla 48 y el terminal MODULO se resuelve como reducción (%left MODULO).
+
+
+Estado 127
+
+   45 expresion: expresion . MAS expresion
+   46          | expresion . MENOS expresion
+   47          | expresion . MUL expresion
+   48          | expresion . DIV expresion
+   49          | expresion . MODULO expresion
+   49          | expresion MODULO expresion .
+
+    $default  reduce usando la regla 49 (expresion)
+
+    El conflicto entre la regla 49 y el terminal MAS se resuelve como reducción (MAS < MODULO).
+    El conflicto entre la regla 49 y el terminal MENOS se resuelve como reducción (MENOS < MODULO).
+    El conflicto entre la regla 49 y el terminal MUL se resuelve como reducción (%left MUL).
+    El conflicto entre la regla 49 y el terminal DIV se resuelve como reducción (%left DIV).
+    El conflicto entre la regla 49 y el terminal MODULO se resuelve como reducción (%left MODULO).
+
+
+Estado 128
+
+   33 sentencia: SWI PARI expresion PARD . LLAI casos predeterminado LLAD
+
+    LLAI  desplazar e ir al estado 141
+
+
+Estado 129
+
+   24 sentencia: SI PARI condicion PARD . sentencia
+   25          | SI PARI condicion PARD . sentencia SINO sentencia
+
+    ID     desplazar e ir al estado 45
+    MIEN   desplazar e ir al estado 46
+    HACER  desplazar e ir al estado 47
+    PARA   desplazar e ir al estado 48
+    RET    desplazar e ir al estado 49
+    SWI    desplazar e ir al estado 50
+    BREA   desplazar e ir al estado 51
+    PRIN   desplazar e ir al estado 52
+    LLAI   desplazar e ir al estado 53
+    SI     desplazar e ir al estado 54
+
+    sentencia        ir al estado 142
+    parte_izquierda  ir al estado 57
+    var_arreglo      ir al estado 58
+
+
+Estado 130
+
+   29 sentencia: parte_izquierda ASIGNACION expresion PYC .
+
+    $default  reduce usando la regla 29 (sentencia)
+
+
+Estado 131
+
+   44 var_arreglo: var_arreglo CORI expresion CORD .
+
+    $default  reduce usando la regla 44 (var_arreglo)
+
+
+Estado 132
+
+   62 condicion: PARI condicion PARD .
+
+    $default  reduce usando la regla 62 (condicion)
+
+
+Estado 133
+
+   45 expresion: expresion . MAS expresion
+   46          | expresion . MENOS expresion
+   47          | expresion . MUL expresion
+   48          | expresion . DIV expresion
+   49          | expresion . MODULO expresion
+   63 condicion: expresion relacional expresion .
+
+    MAS     desplazar e ir al estado 93
+    MENOS   desplazar e ir al estado 94
+    MUL     desplazar e ir al estado 95
+    DIV     desplazar e ir al estado 96
+    MODULO  desplazar e ir al estado 97
+
+    $default  reduce usando la regla 63 (condicion)
+
+
+Estado 134
+
+   59 condicion: condicion . OR condicion
+   59          | condicion OR condicion .
+   60          | condicion . AND condicion
+
+    AND  desplazar e ir al estado 116
+
+    $default  reduce usando la regla 59 (condicion)
+
+    El conflicto entre la regla 59 y el terminal OR se resuelve como reducción (%left OR).
+    El conflicto entre la regla 59 y el aviso AND se resuelve como cambio. (OR < AND).
+
+
+Estado 135
+
+   59 condicion: condicion . OR condicion
+   60          | condicion . AND condicion
+   60          | condicion AND condicion .
+
+    $default  reduce usando la regla 60 (condicion)
+
+    El conflicto entre la regla 60 y el terminal OR se resuelve como reducción (OR < AND).
+    El conflicto entre la regla 60 y el terminal AND se resuelve como reducción (%left AND).
+
+
+Estado 136
+
+   26 sentencia: MIEN PARI condicion PARD sentencia .
+
+    $default  reduce usando la regla 26 (sentencia)
+
+
+Estado 137
+
+   27 sentencia: HACER sentencia MIEN PARI condicion . PARD PYC
+   59 condicion: condicion . OR condicion
+   60          | condicion . AND condicion
+
+    OR    desplazar e ir al estado 115
+    AND   desplazar e ir al estado 116
+    PARD  desplazar e ir al estado 143
+
+
+Estado 138
+
+   28 sentencia: PARA PARI sentencia PYC condicion . PYC sentencia PARD sentencia
+   59 condicion: condicion . OR condicion
+   60          | condicion . AND condicion
+
+    PYC  desplazar e ir al estado 144
+    OR   desplazar e ir al estado 115
+    AND  desplazar e ir al estado 116
+
+
+Estado 139
+
+   54 expresion: ID PARI parametro PARD .
+
+    $default  reduce usando la regla 54 (expresion)
+
+
+Estado 140
+
+   57 lista_param: lista_param COMA . expresion
+
+    ID    desplazar e ir al estado 65
+    NUM   desplazar e ir al estado 66
+    CADE  desplazar e ir al estado 68
+    CHAR  desplazar e ir al estado 69
+
+    var_arreglo  ir al estado 70
+    expresion    ir al estado 145
+
+
+Estado 141
+
+   33 sentencia: SWI PARI expresion PARD LLAI . casos predeterminado LLAD
+
+    CASE  desplazar e ir al estado 146
+
+    $default  reduce usando la regla 37 (casos)
+
+    casos  ir al estado 147
+
+
+Estado 142
+
+   24 sentencia: SI PARI condicion PARD sentencia .
+   25          | SI PARI condicion PARD sentencia . SINO sentencia
+
+    SINO  desplazar e ir al estado 148
+
+    $default  reduce usando la regla 24 (sentencia)
+
+    El conflicto entre la regla 24 y el aviso SINO se resuelve como cambio. (PARD < SINO).
+
+
+Estado 143
+
+   27 sentencia: HACER sentencia MIEN PARI condicion PARD . PYC
+
+    PYC  desplazar e ir al estado 149
+
+
+Estado 144
+
+   28 sentencia: PARA PARI sentencia PYC condicion PYC . sentencia PARD sentencia
+
+    ID     desplazar e ir al estado 45
+    MIEN   desplazar e ir al estado 46
+    HACER  desplazar e ir al estado 47
+    PARA   desplazar e ir al estado 48
+    RET    desplazar e ir al estado 49
+    SWI    desplazar e ir al estado 50
+    BREA   desplazar e ir al estado 51
+    PRIN   desplazar e ir al estado 52
+    LLAI   desplazar e ir al estado 53
+    SI     desplazar e ir al estado 54
+
+    sentencia        ir al estado 150
+    parte_izquierda  ir al estado 57
+    var_arreglo      ir al estado 58
+
+
+Estado 145
+
+   45 expresion: expresion . MAS expresion
+   46          | expresion . MENOS expresion
+   47          | expresion . MUL expresion
+   48          | expresion . DIV expresion
+   49          | expresion . MODULO expresion
+   57 lista_param: lista_param COMA expresion .
+
+    MAS     desplazar e ir al estado 93
+    MENOS   desplazar e ir al estado 94
+    MUL     desplazar e ir al estado 95
+    DIV     desplazar e ir al estado 96
+    MODULO  desplazar e ir al estado 97
+
+    $default  reduce usando la regla 57 (lista_param)
+
+
+Estado 146
+
+   36 casos: CASE . DP NUM sentencia predeterminado
+
+    DP  desplazar e ir al estado 151
+
+
+Estado 147
+
+   33 sentencia: SWI PARI expresion PARD LLAI casos . predeterminado LLAD
+
+    DEF  desplazar e ir al estado 152
+
+    $default  reduce usando la regla 39 (predeterminado)
+
+    predeterminado  ir al estado 153
+
+
+Estado 148
+
+   25 sentencia: SI PARI condicion PARD sentencia SINO . sentencia
+
+    ID     desplazar e ir al estado 45
+    MIEN   desplazar e ir al estado 46
+    HACER  desplazar e ir al estado 47
+    PARA   desplazar e ir al estado 48
+    RET    desplazar e ir al estado 49
+    SWI    desplazar e ir al estado 50
+    BREA   desplazar e ir al estado 51
+    PRIN   desplazar e ir al estado 52
+    LLAI   desplazar e ir al estado 53
+    SI     desplazar e ir al estado 54
+
+    sentencia        ir al estado 154
+    parte_izquierda  ir al estado 57
+    var_arreglo      ir al estado 58
+
+
+Estado 149
+
+   27 sentencia: HACER sentencia MIEN PARI condicion PARD PYC .
+
+    $default  reduce usando la regla 27 (sentencia)
+
+
+Estado 150
+
+   28 sentencia: PARA PARI sentencia PYC condicion PYC sentencia . PARD sentencia
+
+    PARD  desplazar e ir al estado 155
+
+
+Estado 151
+
+   36 casos: CASE DP . NUM sentencia predeterminado
+
+    NUM  desplazar e ir al estado 156
+
+
+Estado 152
+
+   38 predeterminado: DEF . DP sentencia
+
+    DP  desplazar e ir al estado 157
+
+
+Estado 153
+
+   33 sentencia: SWI PARI expresion PARD LLAI casos predeterminado . LLAD
+
+    LLAD  desplazar e ir al estado 158
+
+
+Estado 154
+
+   25 sentencia: SI PARI condicion PARD sentencia SINO sentencia .
+
+    $default  reduce usando la regla 25 (sentencia)
+
+
+Estado 155
+
+   28 sentencia: PARA PARI sentencia PYC condicion PYC sentencia PARD . sentencia
+
+    ID     desplazar e ir al estado 45
+    MIEN   desplazar e ir al estado 46
+    HACER  desplazar e ir al estado 47
+    PARA   desplazar e ir al estado 48
+    RET    desplazar e ir al estado 49
+    SWI    desplazar e ir al estado 50
+    BREA   desplazar e ir al estado 51
+    PRIN   desplazar e ir al estado 52
+    LLAI   desplazar e ir al estado 53
+    SI     desplazar e ir al estado 54
+
+    sentencia        ir al estado 159
+    parte_izquierda  ir al estado 57
+    var_arreglo      ir al estado 58
+
+
+Estado 156
+
+   36 casos: CASE DP NUM . sentencia predeterminado
+
+    ID     desplazar e ir al estado 45
+    MIEN   desplazar e ir al estado 46
+    HACER  desplazar e ir al estado 47
+    PARA   desplazar e ir al estado 48
+    RET    desplazar e ir al estado 49
+    SWI    desplazar e ir al estado 50
+    BREA   desplazar e ir al estado 51
+    PRIN   desplazar e ir al estado 52
+    LLAI   desplazar e ir al estado 53
+    SI     desplazar e ir al estado 54
+
+    sentencia        ir al estado 160
+    parte_izquierda  ir al estado 57
+    var_arreglo      ir al estado 58
+
+
+Estado 157
+
+   38 predeterminado: DEF DP . sentencia
+
+    ID     desplazar e ir al estado 45
+    MIEN   desplazar e ir al estado 46
+    HACER  desplazar e ir al estado 47
+    PARA   desplazar e ir al estado 48
+    RET    desplazar e ir al estado 49
+    SWI    desplazar e ir al estado 50
+    BREA   desplazar e ir al estado 51
+    PRIN   desplazar e ir al estado 52
+    LLAI   desplazar e ir al estado 53
+    SI     desplazar e ir al estado 54
+
+    sentencia        ir al estado 161
+    parte_izquierda  ir al estado 57
+    var_arreglo      ir al estado 58
+
+
+Estado 158
+
+   33 sentencia: SWI PARI expresion PARD LLAI casos predeterminado LLAD .
+
+    $default  reduce usando la regla 33 (sentencia)
+
+
+Estado 159
+
+   28 sentencia: PARA PARI sentencia PYC condicion PYC sentencia PARD sentencia .
+
+    $default  reduce usando la regla 28 (sentencia)
+
+
+Estado 160
+
+   36 casos: CASE DP NUM sentencia . predeterminado
+
+    DEF  desplazar e ir al estado 152
+
+    DEF       [reduce usando la regla 39 (predeterminado)]
+    $default  reduce usando la regla 39 (predeterminado)
+
+    predeterminado  ir al estado 162
+
+
+Estado 161
+
+   38 predeterminado: DEF DP sentencia .
+
+    $default  reduce usando la regla 38 (predeterminado)
+
+
+Estado 162
+
+   36 casos: CASE DP NUM sentencia predeterminado .
+
+    $default  reduce usando la regla 36 (casos)
