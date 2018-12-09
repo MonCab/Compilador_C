@@ -3,22 +3,12 @@
 //
 //  
 //
-#include "attributes.h"
+#include "stack.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h> 
 
 int size;
-struct Element{
-	int index;
-	char  label[32];
-	struct Element *next;
-};
-typedef struct Element Element;
-
-typedef struct {
-	Element *top;
-}Stack;
 
 
 Stack * initialize(){

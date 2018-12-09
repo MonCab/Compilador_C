@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "attributes.h"
+#include "stack.h"
 #include <stdbool.h>
 #include"tablasTipos.h"
 extern FILE *yyin ;

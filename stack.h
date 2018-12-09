@@ -5,8 +5,20 @@
  * Created on 12/4/18
  */
 
-#ifndef ATTRIBUTES_H
-#define ATTRIBUTES_H
+#ifndef STACK_H
+#define STACK_H
+
+	struct Element{
+		int index;
+		char  label[32];
+		struct Element *next;
+	};
+	typedef struct Element Element;
+
+	typedef struct {
+		Element *top;
+	}Stack;
+
 
 
 	typedef struct _type{
@@ -25,7 +37,7 @@
 	} numero;
 
 	
-	Stack initialize(); 
+	Stack * initialize(); 
 	void push(Stack *stack, char newLabel[32]);
 	char *pop(Stack *stack);
 	void destroy (Stack *stack);
@@ -39,5 +51,5 @@
 
 
 
-#endif /* ATTRIBUTES_H */
+#endif /* STACK_H */
 

@@ -3,12 +3,12 @@
  #include <stdbool.h>
  #include<stdio.h>
  #include<stdlib.h>
- #include"attributes.h"
- #include"symtab.h"
+ #include"stack.h"
+ #include"tablasTipos.h"
  extern int yylex();
  extern int yylineno;
  extern char *yytext;
- void yyerror(char *);
+ void yyerror(char * s);
 %}
 
 %union{
@@ -30,11 +30,10 @@
 %token<id> ID
 %token<num> NUM
 %token ENT FLO DOB CARA VAC ESTR
-%token FUNC  PYC MIEN HACER PARA 
+%token FUNC COMA PYCOMA MIEN HACER PARA 
 %token RET SWI BREA PRIN CASE DEF DP PUNTO CADE
 %token CHAR TRUE FALSE  
 %right ASIGNACION
-%left COMA
 %left OR
 %left AND
 %left IGUAL DIFERENTEQUE
@@ -48,7 +47,7 @@
 %left SINO
 %%
 programa: declaraciones funciones;
-declaraciones: tipo lista PYC declaraciones 
+declaraciones: tipo lista PYCOMA declaraciones 
 		| ;
 tipo:	 ENT
 	|FLO
@@ -82,15 +81,15 @@ sentencia:
 	SI PARI condicion PARD sentencia
 	|SI PARI condicion PARD sentencia SINO sentencia 
 	|MIEN PARI condicion PARD sentencia
-	|HACER sentencia MIEN PARI condicion PARD PYC
-	|PARA PARI sentencia PYC condicion PYC sentencia PARD sentencia
-	|parte_izquierda ASIGNACION expresion PYC
-	|RET expresion PYC
-	|RET PYC
+	|HACER sentencia MIEN PARI condicion PARD PYCOMA
+	|PARA PARI sentencia PYCOMA condicion PYCOMA sentencia PARD sentencia
+	|parte_izquierda ASIGNACION expresion PYCOMA
+	|RET expresion PYCOMA
+	|RET PYCOMA
 	|LLAI sentencia LLAD
 	|SWI PARI expresion PARD LLAI casos predeterminado LLAD
-	|BREA PYC
-	|PRIN expresion PYC ;
+	|BREA PYCOMA
+	|PRIN expresion PYCOMA ;
 
 casos: CASE NUM DP sentencias casos
 	| ;
@@ -139,5 +138,7 @@ relacional: MAYORQUE
 %%
 
 
-
+void yyerror(char * s){
+	printf("\n\nError sintactico en algun lugar : ");
+}
 

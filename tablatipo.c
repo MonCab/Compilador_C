@@ -124,7 +124,8 @@ int getTam(TLista Lista,int tipo){
 				return nodo->tam*nodo->dim;
 			nodo=nodo->next;
 		}while(nodo);
-	}	
+	}
+	return 0;	
 }
 TNodo getBase(TLista Lista,int tipo){
 	if(Lista==NULL){
@@ -138,6 +139,7 @@ TNodo getBase(TLista Lista,int tipo){
 			nodo=nodo->next;
 		}while(nodo);
 	}
+	return 0;
 }
 int Correct_Type(int tipo1, int tipo2);
 void Crear_tablaS(SLista *listaS){

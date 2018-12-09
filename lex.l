@@ -8,7 +8,7 @@
 	#include <stdio.h>
 	#include <stdlib.h>
 	#include <stdbool.h>
-	#include "attributes.h"
+	#include "stack.h"
 	#include "y.tab.h" /* Biblioteca con el valor de nuestros terminales */
 	int yycolumn = 1; /* variable global para almacenar y mostrar el numero de columna */
 	#define YY_USER_ACTION yycolumn += yyleng; /* Se define una macro para ejecutarse cada que se encuentra un token */
