@@ -92,7 +92,7 @@ sentencia:
 	|BREA PYC
 	|PRIN expresion PYC ;
 
-casos: CASE DP NUM sentencia predeterminado
+casos: CASE NUM DP sentencia casos
 	| ;
 
 predeterminado: DEF DP sentencia
