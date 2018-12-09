@@ -24,21 +24,17 @@
 	char val[32];
 	} numero;
 
-	typedef struct _labels{
-	char label[1000][32];
-	int count;
-	} labels;
 	
-	char *pop_label(labels* ls);
-	void push_label(labels* ls, char *l);
+	Stack initialize(); 
+	void push(Stack *stack, char newLabel[32]);
+	char *pop(Stack *stack);
+	void destroy (Stack *stack);
+	int isEmpty(Stack *stack);
+	void peek(Stack *stack);
+	void doublePeek(Stack *stack);
+	int getSize (Stack *stack);
+	void printStack (Element *top);
 	
-	char *get_top_label(labels* ls);	
-	char *get_top_label_previous(labels* ls);
-	void create_labels(labels* ls);
-	void print_stack_labels(labels* ls);
-	void print_list_labels(labels* ls);
-	
-
 
 
 

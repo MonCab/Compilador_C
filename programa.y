@@ -17,13 +17,13 @@
 	exp expresion;
 	type tipo;
 	struct{
-	labels falses;
-	labels trues;
+		Stack falses;
+		Stack trues;
 	}booleanos;
-	labels siguientes;
+	Stack siguientes;
 	struct{
-	labels siguientes;
-	bool ifelse;
+		Stack siguientes;
+		bool ifelse;
 	}siguientesp;
 	int rel;
 }
@@ -137,3 +137,7 @@ relacional: MAYORQUE
 		|DIFERENTEQUE
 		|IGUAL ; 
 %%
+
+
+
+
