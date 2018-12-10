@@ -3,154 +3,131 @@
 #include<string.h>
 #include<stdlib.h>
 
-
-int ExisteS(SLista Lista,char *id){
-	if(Lista==NULL){
-		return 0;
-	}else{
-		SNodo nodo=Lista;
-		do{	
-			if(strcmp(nodo->id,id)==0)
-				return -1;
-			else
-				nodo=nodo->next;
-
-		}while(nodo);
-		return 0;
-	}
+void iniciar(){
+     PilaSimbolos.sp = -1;
+     PilaTipos.sp= -1;
 }
-void insertArg(ALista *Lista,char *arg){
-	ANodo nuevo,anterior;
-	nuevo=(ANodo)malloc(sizeof(TipoArgs));
-	strcpy(nuevo->tipo,arg);
-	if(*Lista==NULL){		
-		nuevo->next=*Lista;
-		*Lista=nuevo;
-	}else{
-		anterior=*Lista;	
-		while(anterior->next) anterior=anterior->next;
-		nuevo->next=anterior->next;
-		anterior->next=nuevo;	
-	}
+int  insertar_simbolo(symbol sym, int table){    
+    int cont = PilaSimbolos.tablas[table].count;
+    if(buscar_simbolo(sym.id, table)==0 && PilaSimbolos.tablas[table].count<MAXSYM+1){
+	sym.pos=cont;
+        PilaSimbolos.tablas[table].symbols[cont] = sym;
+	PilaSimbolos.tablas[table].count++;
+	return 1;
+    }
+    return 0;
+}
+    
+                                                                                                                                                                                                                                   
+int buscar_simbolo(char *id, int table){
+    int i;
+    for( i= 0; i < PilaSimbolos.tablas[table].count+1; i++){
+        if(strcmp(PilaSimbolos.tablas[table].symbols[i].id, id)==0){
+            return 1;
+        }
+    }
+    return 0;
 }
 
-void insertSimbol(SLista *Lista,int pos,char *id,int tipo,int dir,char *var,ALista *args){
-		SNodo nuevo,anterior;
-		nuevo=(SNodo)malloc(sizeof(TipoSimbol));
-		nuevo->pos=pos;
-		strcpy(nuevo->id,id);
-		nuevo->tipo=tipo;
-		nuevo->dir=dir;
-		strcpy(nuevo->var,var);
-		nuevo->args=args;
-		if(*Lista==NULL){		
-			nuevo->next=*Lista;
-			*Lista=nuevo;
-		}else{
-			anterior=*Lista;	
-			while(anterior->next) anterior=anterior->next;
-			nuevo->next=anterior->next;
-			anterior->next=nuevo;	
-		}
-}
-void insertTipo(TLista *Lista,int pos,char *tipo,int tam, int dim, TNodo tipoBase){
-	TNodo nuevo,anterior;
-	nuevo=(TNodo)malloc(sizeof(TipoTipo));
-	nuevo->pos=pos;
-	strcpy(nuevo->tipo,tipo);
-	nuevo->tam=tam;
-	nuevo->dim=dim;
-	nuevo->tipoBase=tipoBase;
-	if(*Lista==NULL){		
-		nuevo->next=*Lista;
-		*Lista=nuevo;
-	}else{
-		anterior=*Lista;	
-		while(anterior->next) anterior=anterior->next;
-		nuevo->next=anterior->next;
-		anterior->next=nuevo;	
-	}
-}
-int Correct_Type(int tipo1, int tipo2){
-	if(tipo1==tipo2)
-		return 0;
-	else
-		return -1;
-
+int get_type(char *id, int table){
+    int  i;
+    int count = PilaSimbolos.tablas[table].count;
+    //printf("buscando %s, en la tabla %d\n", id, table);
+    for(i =0; i < count+1; i++){
+        //printf("%s, tabla %d el id %s\n", symStack.tables[table].symbols[i].id, table,id);
+        if(strcmp(PilaSimbolos.tablas[table].symbols[i].id, id)==0){
+            //printf("coincide\n");
+            return PilaSimbolos.tablas[table].symbols[i].tipo;
+        }
+    }
+    return -1;
 }
 
-void iniciarTipos(TLista *Lista){
-	insertTipo(Lista,(getLastType(*Lista)+1),"void",0,0,NULL);
-	insertTipo(Lista,(getLastType(*Lista)+1),"char",1,1,NULL);
-	insertTipo(Lista,(getLastType(*Lista)+1),"int",4,1,NULL);
-	insertTipo(Lista,(getLastType(*Lista)+1),"float",4,1,NULL);
-	insertTipo(Lista,(getLastType(*Lista)+1),"double",8,1,NULL);
+void imprimir_simbolos(int table, char *name){
+    int i,j,k;
+    printf("Tabla de Símbolos %s\n", name);
+    printf("Pos\t Id\t Tipo\t Dir\t Var\tNArgs\n");
+    for(i=0; i < PilaSimbolos.tablas[table].count; i++){
+        printf("%d\t %s\t %d\t %d\t %s\t %d\n", 
+                PilaSimbolos.tablas[table].symbols[i].pos,
+		PilaSimbolos.tablas[table].symbols[i].id, 
+                PilaSimbolos.tablas[table].symbols[i].tipo,
+		PilaSimbolos.tablas[table].symbols[i].dir,
+                PilaSimbolos.tablas[table].symbols[i].var,
+		PilaSimbolos.tablas[table].symbols[i].numArgs);
+    }	
 }
-
-int getLastType(TLista Lista){
-	if(Lista==NULL){
-		return -1;
-	}else{
-		TNodo nodo=Lista,anterior;
-		do{
-			anterior=nodo;
-			nodo=nodo->next;		
-		}while(nodo);
-		return anterior->pos;
-	}
+void crear_tabla_simbolos(){
+    PilaSimbolos.sp++;    
+    PilaSimbolos.tablas[PilaSimbolos.sp].count = 0;    
 }
-
-int getLastSymbol(SLista Lista){
-	if(Lista==NULL){
-		return -1;
-	}else{
-		SNodo nodo=Lista,anterior;
-		do{
-			anterior=nodo;
-			nodo=nodo->next;		
-		}while(nodo);
-		return anterior->pos;
-	}
+void borrar_tabla_simbolos(){
+    PilaSimbolos.tablas[PilaSimbolos.sp].count = 0;
+    PilaSimbolos.sp--;    
 }
-
-int getTam(TLista Lista,int tipo){
-	if(Lista==NULL){
-		printf("Error, tabla Vacia\n");
-		return -1;
-	}else{
-		TNodo nodo=Lista;
-		do{
-			if(nodo->pos==tipo)
-				return nodo->tam*nodo->dim;
-			nodo=nodo->next;
-		}while(nodo);
-	}
-	return 0;	
-}
-TNodo getBase(TLista Lista,int tipo){
-	if(Lista==NULL){
-		printf("Error, tabla Vacia\n");
-		return NULL;
-	}else{
-		TNodo nodo=Lista;
-		do{
-			if(nodo->pos==tipo)
-				return nodo;
-			nodo=nodo->next;
-		}while(nodo);
-	}
-	return 0;
-}
-int Correct_Type(int tipo1, int tipo2);
-void Crear_tablaS(SLista *listaS){
-	*listaS=NULL;
-}
-void Crear_tablaT(TLista *listaT){
-	*listaT=NULL;
-	iniciarTipos(listaT);
-}
-void Crear_tablaA(ALista *listaA){
-	*listaA=NULL;
+int insertar_tipo(_tipo t){
+    int sp = PilaTipos.sp;
+    int cont = PilaTipos.tablas[sp].count;  
+    strcpy(PilaTipos.tablas[sp].types[cont].tipo, t.tipo);
+    PilaTipos.tablas[sp].types[cont].pos= cont;
+    PilaTipos.tablas[sp].types[cont].dim = t.dim;
+    PilaTipos.tablas[sp].types[cont].base = t.base;
+    PilaTipos.tablas[sp].count++;
+	return PilaTipos.tablas[sp].types[cont].pos;
 }
 
 
+void crear_tabla_tipos(){    
+    PilaTipos.sp++;
+    int sp = PilaTipos.sp;
+    PilaTipos.tablas[sp].count = 0;
+    
+    strcpy(PilaTipos.tablas[sp].types[0].tipo, "void");
+    PilaTipos.tablas[sp].types[0].pos=PilaTipos.tablas[sp].count;
+    PilaTipos.tablas[sp].types[0].tam = 0;
+    PilaTipos.tablas[sp].types[0].dim = 1;
+    PilaTipos.tablas[sp].types[0].base = -1;
+    PilaTipos.tablas[sp].count++;
+
+    strcpy(PilaTipos.tablas[sp].types[1].tipo, "char");
+    PilaTipos.tablas[sp].types[1].pos=PilaTipos.tablas[sp].count;
+    PilaTipos.tablas[sp].types[1].tam = 1;
+    PilaTipos.tablas[sp].types[1].dim = 1;
+    PilaTipos.tablas[sp].types[1].base = -1;
+    PilaTipos.tablas[sp].count++;
+   
+    strcpy(PilaTipos.tablas[sp].types[2].tipo, "int");
+    PilaTipos.tablas[sp].types[2].pos=PilaTipos.tablas[sp].count;
+    PilaTipos.tablas[sp].types[2].tam = 4;
+    PilaTipos.tablas[sp].types[2].dim = 1;
+    PilaTipos.tablas[sp].types[2].base = -1;
+    PilaTipos.tablas[sp].count++;
+    
+    strcpy(PilaTipos.tablas[sp].types[3].tipo, "float");
+    PilaTipos.tablas[sp].types[3].pos=PilaTipos.tablas[sp].count;
+    PilaTipos.tablas[sp].types[3].tam = 4;
+    PilaTipos.tablas[sp].types[3].dim = 1;
+    PilaTipos.tablas[sp].types[3].base = -1;
+    PilaTipos.tablas[sp].count++;
+    
+    strcpy(PilaTipos.tablas[sp].types[4].tipo, "double");
+    PilaTipos.tablas[sp].types[4].pos=PilaTipos.tablas[sp].count;
+    PilaTipos.tablas[sp].types[4].tam = 8;
+    PilaTipos.tablas[sp].types[4].dim = 1;
+    PilaTipos.tablas[sp].types[4].base = -1;
+    PilaTipos.tablas[sp].count++;	
+
+}
+void borrar_tabla_tipos(){
+    PilaTipos.sp--;
+}
+
+void imprimir_tipos(int table){
+    int i;
+    printf("pos\ttipo\ttam\tdim\tbase\n");
+    for(i=0; i < PilaTipos.tablas[table].count; i++){
+        printf("%d\t%s\t%d\t %d\t%d\n",PilaTipos.tablas[table].types[i].pos, PilaTipos.tablas[table].types[i].tipo,
+               PilaTipos.tablas[table].types[i].tam,PilaTipos.tablas[table].types[i].dim,
+		PilaTipos.tablas[table].types[i].base);        
+    }
+}
