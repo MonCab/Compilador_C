@@ -10,7 +10,7 @@
 
 	struct Element{
 		int index;
-		char  label[32];
+		char  label[1000];
 		struct Element *next;
 	};
 	typedef struct Element Element;

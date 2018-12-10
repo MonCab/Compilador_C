@@ -75,7 +75,7 @@ false								{return FALSE;}
 	/* SIGNOS PUNTUACION */
 
 \,									{return COMA;}
-\;									{return PYCOMA;}
+\;									{return PYC;}
 \:									{return DP;}
 \.									{return PUNTO;}
 

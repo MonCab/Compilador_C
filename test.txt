@@ -1,10 +1,2 @@
-int y , arr[3] ;
-func int main (int y){
-	double abc 
-	fabc = 2 + 2 ;
-	if (2 == 2)
-		return 2;	
-	else 
-		if (3 == 2) 
-			
-}
+int x , y ;
+x = y + 2 ;
